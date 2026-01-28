@@ -3,21 +3,52 @@ import Navigation from '@/components/Navigation';
 
 export default function News() {
   const newsItems = [
-    // Add news items here
+    {
+      category: 'Congratulations',
+      date: 'Oct 2022',
+      title: 'Dr. Yu Tsao is ranked as the Top 2% Most Influential Scientists (Single Year 2022)!',
+      icon: '🎉',
+    },
+    {
+      category: 'Congratulations',
+      date: 'Jan 2023',
+      title: 'Two papers were accepted to ICLR 2023!',
+      icon: '📄',
+    },
+    {
+      category: 'Congratulations',
+      date: 'Jul 2022',
+      title: 'We are awarded the 1st Place Prize in the Hearing Industry Research Consortium Student (Ryerson & Zucoski)!',
+      icon: '🏆',
+    },
+    {
+      category: 'Congratulations',
+      date: 'Jul 2022',
+      title: 'We are awarded the 1st Place Prize in the Machine Learning Challenges for Hearing Aids (Cadenza Challenge)!',
+      icon: '🏆',
+    },
+    {
+      category: 'Congratulations',
+      date: 'Jan 2022',
+      title: '11 papers were accepted to Interspeech 2022!',
+      icon: '📄',
+    },
   ];
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-12">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">News & Updates</h1>
-          <p className="text-gray-600">Latest announcements and achievements</p>
-          <div className="w-24 h-1 bg-green-600 rounded mt-4"></div>
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-blue-50 to-gray-50 py-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <h1 className="text-5xl font-bold text-gray-800 mb-4 text-center">News</h1>
+          <div className="w-24 h-1 bg-blue-600 rounded mx-auto"></div>
         </div>
-        
+      </div>
+
+      {/* Main Content */}
+      <main className="max-w-5xl mx-auto px-4 py-12">
         {newsItems.length === 0 ? (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center border-t-4 border-green-600">
             <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -29,12 +60,33 @@ export default function News() {
             </p>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-4">
             {newsItems.map((item, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold mb-2">{item.title}</h2>
-                <p className="text-gray-600 text-sm mb-4">{item.date}</p>
-                <p className="text-gray-700">{item.content}</p>
+              <div key={index} className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow border-l-4 border-blue-500">
+                <div className="p-6 flex items-start gap-6">
+                  {/* Icon */}
+                  <div className="flex-shrink-0">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg flex items-center justify-center text-3xl">
+                      {item.icon}
+                    </div>
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-red-600 font-semibold text-sm uppercase tracking-wide">
+                        {item.category}
+                      </span>
+                      <span className="text-gray-400">•</span>
+                      <span className="text-gray-500 text-sm font-medium">
+                        {item.date}
+                      </span>
+                    </div>
+                    <h2 className="text-lg font-semibold text-gray-800 leading-relaxed">
+                      {item.title}
+                    </h2>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

@@ -2,6 +2,15 @@ import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 
 export default function Members() {
+  const principalInvestigator = {
+    name: 'Md Mahbub E Noor',
+    title: 'Assistant Professor',
+    department: 'Department of Computer Science & Engineering',
+    institution: 'University of Barishal',
+    email: 'menoor@bu.ac.bd',
+    description: 'Dr. Md Mahbub E Noor is an Assistant Professor in the Department of Computer Science & Engineering at the University of Barishal. His research interests include cognitive computing, biomedical signal processing, audio-visual analysis, machine learning, and deep learning applications in healthcare. He leads the CogBioAV Lab, focusing on developing intelligent systems for medical diagnostics and patient monitoring using multimodal data analysis.',
+  };
+
   const members = [
     {
       name: 'Fahmida Rahman',
@@ -35,6 +44,38 @@ export default function Members() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-12">
+        {/* Principal Investigator Section */}
+        <div className="mb-12">
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">Principal Investigator</h1>
+          <div className="w-24 h-1 bg-green-600 rounded mb-8"></div>
+          
+          <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow border-l-4 border-green-600">
+            <div className="p-8">
+              <div className="flex flex-col md:flex-row gap-6">
+                <div className="md:flex-shrink-0">
+                  <div className="w-48 h-48 bg-green-50 rounded-xl border-4 border-green-100 flex items-center justify-center mx-auto md:mx-0 overflow-hidden">
+                    <span className="text-green-600 text-xs font-medium">Photo</span>
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-3xl font-bold text-gray-800 mb-2">{principalInvestigator.name}</h2>
+                  <p className="text-xl text-green-600 font-semibold mb-1">{principalInvestigator.title}</p>
+                  <p className="text-lg text-gray-600 mb-1">{principalInvestigator.department}</p>
+                  <p className="text-lg text-gray-600 mb-3">{principalInvestigator.institution}</p>
+                  <p className="text-gray-600 mb-3">
+                    <span className="font-semibold">Email:</span>{' '}
+                    <a href={`mailto:${principalInvestigator.email}`} className="text-green-600 hover:underline">
+                      {principalInvestigator.email}
+                    </a>
+                  </p>
+                  <p className="text-gray-600 leading-relaxed">{principalInvestigator.description}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Lab Members Section */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">Current Lab Members</h1>
           <div className="w-24 h-1 bg-green-600 rounded"></div>
