@@ -35,6 +35,21 @@ export default function Teaching() {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
 
+      {/* Hero Banner */}
+      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900 to-black overflow-hidden">
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute left-0 top-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
+          <div className="absolute right-0 bottom-0 w-96 h-96 bg-cyan-500 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 py-16">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">Teaching</h1>
+            <p className="text-gray-300 text-sm">Courses and educational experience</p>
+          </div>
+        </div>
+      </div>
+
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-12">
         <div className="mb-8">

@@ -1,79 +1,89 @@
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 
-export default function Members() {
-  const principalInvestigator = {
-    name: 'Md Mahbub E Noor',
-    title: 'Assistant Professor',
-    department: 'Department of Computer Science & Engineering',
-    institution: 'University of Barishal',
-    email: 'menoor@bu.ac.bd',
-    description: 'Dr. Md Mahbub E Noor is an Assistant Professor in the Department of Computer Science & Engineering at the University of Barishal. His research interests include cognitive computing, biomedical signal processing, audio-visual analysis, machine learning, and deep learning applications in healthcare. He leads the CogBioAV Lab, focusing on developing intelligent systems for medical diagnostics and patient monitoring using multimodal data analysis.',
-  };
+interface Member {
+  _id: string;
+  name: string;
+  degree: string;
+  award?: string;
+  description: string;
+  type: 'pi' | 'member';
+  contact?: string;
+}
 
-  const members = [
-    {
-      name: 'Fahmida Rahman',
-      degree: 'MS in Computer Science & Engineering',
-      award: 'National Science and Technology Fellowship Award 2023 recipient',
-      description: 'Fahmida is an MS in CSE (Thesis) student working on audio-based biomedical signal processing. Her research focuses on developing deep learning models for analyzing respiratory sounds, heart sounds, and other acoustic biomarkers for early disease detection using convolutional neural networks and time-frequency analysis techniques.',
-    },
-    {
-      name: 'Sujit Halder',
-      degree: 'MS in Computer Science & Engineering',
-      award: 'National Science and Technology Fellowship Award 2023 recipient',
-      description: 'Sujit is an MS (thesis) student in the CSE department. His research project focuses on video-based patient monitoring systems using computer vision and deep learning. The project involves developing algorithms for analyzing patient movements, facial expressions, and behavioral patterns for healthcare applications using multimodal neural network architectures.',
-    },
-    {
-      name: 'Rumana Islam',
-      degree: 'MS in Computer Science & Engineering',
-      award: '',
-      description: 'Rumana completed her BSc in Computer Science & Engineering from the University of Barishal and is now continuing her studies as an MS student. She is working on integrated audio-visual signal analysis for medical diagnostics. Her research interests include multimodal fusion techniques, speech-based emotion recognition, and visual symptom detection using advanced machine learning approaches.',
-    },
-    {
-      name: 'Shamo Rahman',
-      degree: 'MS in Computer Science & Engineering',
-      award: '',
-      description: 'Shamo is currently an MS student in the Department of Computer Science & Engineering at the University of Barishal. His research focuses on cognitive signal processing for assistive healthcare technologies. He is developing intelligent systems for medical image analysis, gait analysis from video, and acoustic-based health monitoring using deep learning and pattern recognition techniques.',
-    },
-  ];
+async function getMembers(): Promise<Member[]> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3001'}/api/members`, {
+      cache: 'no-store',
+    });
+    const data = await res.json();
+    return data.success ? data.data : [];
+  } catch (error) {
+    console.error('Error fetching members:', error);
+    return [];
+  }
+}
+
+export default async function Members() {
+  const allMembers = await getMembers();
+  const principalInvestigators = allMembers.filter((member) => member.type === 'pi');
+  const principalInvestigator = principalInvestigators[0] || null;
+  const members = allMembers.filter((member) => member.type === 'member');
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
 
+      {/* Hero Banner */}
+      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900 to-black overflow-hidden">
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute left-0 top-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
+          <div className="absolute right-0 bottom-0 w-96 h-96 bg-cyan-500 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 py-16">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">Lab Members</h1>
+            <p className="text-gray-300 text-sm">Our research team</p>
+          </div>
+        </div>
+      </div>
+
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-12">
         {/* Principal Investigator Section */}
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">Principal Investigator</h1>
-          <div className="w-24 h-1 bg-green-600 rounded mb-8"></div>
-          
-          <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow border-l-4 border-green-600">
-            <div className="p-8">
-              <div className="flex flex-col md:flex-row gap-6">
-                <div className="md:flex-shrink-0">
-                  <div className="w-48 h-48 bg-green-50 rounded-xl border-4 border-green-100 flex items-center justify-center mx-auto md:mx-0 overflow-hidden">
-                    <span className="text-green-600 text-xs font-medium">Photo</span>
+        {principalInvestigator && (
+          <div className="mb-12">
+            <h1 className="text-4xl font-bold text-gray-800 mb-2">Principal Investigator</h1>
+            <div className="w-24 h-1 bg-green-600 rounded mb-8"></div>
+            
+            <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow border-l-4 border-green-600">
+              <div className="p-8">
+                <div className="flex flex-col md:flex-row gap-6">
+                  <div className="md:flex-shrink-0">
+                    <div className="w-48 h-48 bg-green-50 rounded-xl border-4 border-green-100 flex items-center justify-center mx-auto md:mx-0 overflow-hidden">
+                      <span className="text-green-600 text-xs font-medium">Photo</span>
+                    </div>
                   </div>
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-3xl font-bold text-gray-800 mb-2">{principalInvestigator.name}</h2>
-                  <p className="text-xl text-green-600 font-semibold mb-1">{principalInvestigator.title}</p>
-                  <p className="text-lg text-gray-600 mb-1">{principalInvestigator.department}</p>
-                  <p className="text-lg text-gray-600 mb-3">{principalInvestigator.institution}</p>
-                  <p className="text-gray-600 mb-3">
-                    <span className="font-semibold">Email:</span>{' '}
-                    <a href={`mailto:${principalInvestigator.email}`} className="text-green-600 hover:underline">
-                      {principalInvestigator.email}
-                    </a>
-                  </p>
-                  <p className="text-gray-600 leading-relaxed">{principalInvestigator.description}</p>
+                  <div className="flex-1">
+                    <h2 className="text-3xl font-bold text-gray-800 mb-2">{principalInvestigator.name}</h2>
+                    <p className="text-xl text-green-600 font-semibold mb-1">{principalInvestigator.degree}</p>
+                    {principalInvestigator.award && (
+                      <p className="text-lg text-gray-600 mb-3">{principalInvestigator.award}</p>
+                    )}
+                    {principalInvestigator.contact && (
+                      <p className="text-gray-600 mb-3">
+                        <span className="font-semibold">Contact:</span>{' '}
+                        <span className="text-green-600">{principalInvestigator.contact}</span>
+                      </p>
+                    )}
+                    <p className="text-gray-600 leading-relaxed">{principalInvestigator.description}</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Lab Members Section */}
         <div className="mb-8">

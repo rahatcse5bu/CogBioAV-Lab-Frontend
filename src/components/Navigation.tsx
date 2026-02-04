@@ -1,146 +1,122 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import Image from 'next/image';
 
 export default function Navigation() {
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-
   return (
-    <nav className="bg-green-700 shadow-lg border-b-4 border-green-800">
-      <div className="max-w-7xl mx-auto px-4 py-3">
-        <div className="flex items-center justify-between">
-          {/* Left side - University and Lab branding */}
+    <>
+      {/* Top Bar - Lab Name and Contact */}
+      <div className="bg-indigo-700 text-white">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+          {/* Lab Name */}
+          <div className="flex items-center gap-2">
+            <h1 className="text-lg font-bold tracking-wide">
+              CogBio<span className="text-orange-400">AV</span> Lab
+            </h1>
+            <span className="text-sm text-gray-200 hidden md:inline">
+              | Cognitive Audio-Visual Biomedical Research Laboratory
+            </span>
+          </div>
+
+          {/* Contact Us */}
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-3">
-              <div className="text-white">
-                <div className="text-sm font-semibold leading-tight">University of</div>
-                <div className="text-sm font-semibold leading-tight">Barishal</div>
-              </div>
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <span className="text-white text-xs font-bold">UB</span>
-              </div>
-            </div>
-            <div className="border-l border-white/30 pl-4 ml-2">
-              <span className="text-white font-bold text-lg tracking-wide">
-                CogBio<span className="text-orange-400">AV</span> Lab
-              </span>
-            </div>
-          </div>
-
-          {/* Center - Lab Name */}
-          <div className="hidden lg:block">
-            <Link href="/" className="text-white text-xl font-semibold hover:text-gray-100 transition-colors">
-              Research Laboratory
-            </Link>
-          </div>
-
-          {/* Right side - Navigation links */}
-          <div className="flex items-center gap-1">
             <Link 
-              href="/news" 
-              className="text-white hover:bg-white/10 px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+              href="#contact" 
+              className="flex items-center gap-2 hover:text-gray-200 transition-colors"
             >
-              News
-            </Link>
-
-            {/* Lab Dropdown */}
-            <div 
-              className="relative group"
-              onMouseEnter={() => setActiveDropdown('lab')}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
-              <button className="text-white hover:bg-white/10 px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide flex items-center gap-1">
-                Lab
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {activeDropdown === 'lab' && (
-                <div className="absolute top-full left-0 mt-1 bg-white shadow-xl rounded-lg py-2 min-w-[200px] z-50">
-                  <Link href="/members" className="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors">
-                    Members
-                  </Link>
-                  <Link href="/schedule" className="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors">
-                    Schedule
-                  </Link>
-                </div>
-              )}
-            </div>
-
-            {/* Publications Dropdown */}
-            <div 
-              className="relative group"
-              onMouseEnter={() => setActiveDropdown('publications')}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
-              <button className="text-white hover:bg-white/10 px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide flex items-center gap-1">
-                Publications
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {activeDropdown === 'publications' && (
-                <div className="absolute top-full left-0 mt-1 bg-white shadow-xl rounded-lg py-2 min-w-[200px] z-50">
-                  <Link href="/publications" className="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors">
-                    All Publications
-                  </Link>
-                  <Link href="/publications#journals" className="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors">
-                    Journal Articles
-                  </Link>
-                  <Link href="/publications#chapters" className="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors">
-                    Book Chapters
-                  </Link>
-                </div>
-              )}
-            </div>
-
-            {/* Resources Dropdown */}
-            <div 
-              className="relative group"
-              onMouseEnter={() => setActiveDropdown('resources')}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
-              <button className="text-white hover:bg-white/10 px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide flex items-center gap-1">
-                Resources
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {activeDropdown === 'resources' && (
-                <div className="absolute top-full left-0 mt-1 bg-white shadow-xl rounded-lg py-2 min-w-[200px] z-50">
-                  <Link href="/resources" className="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors">
-                    Tools & Software
-                  </Link>
-                  <Link href="/teaching" className="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors">
-                    Teaching Materials
-                  </Link>
-                </div>
-              )}
-            </div>
-
-            <Link 
-              href="#" 
-              className="text-white hover:bg-white/10 px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
-            >
-              Album
-            </Link>
-
-            <Link 
-              href="#" 
-              className="text-white hover:bg-white/10 px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
-            >
-              Contact
-            </Link>
-
-            <button className="text-white hover:bg-white/10 p-2 rounded transition-colors ml-2" aria-label="Search">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
-            </button>
+              <span className="text-sm font-medium">CONTACT US</span>
+            </Link>
           </div>
         </div>
       </div>
-    </nav>
+
+      {/* Main Navigation Bar */}
+      <nav className="bg-white shadow-md border-b-2 border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* Left Navigation - Home, News, Lab, Publication */}
+            <div className="flex items-center gap-1">
+              <Link 
+                href="/" 
+                className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+              >
+                Home
+              </Link>
+              <Link 
+                href="/news" 
+                className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+              >
+                News
+              </Link>
+              <Link 
+                href="/members" 
+                className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+              >
+                Lab
+              </Link>
+              <Link 
+                href="/publications" 
+                className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+              >
+                Publication
+              </Link>
+            </div>
+
+            {/* Center - Lab Logo */}
+            <div className="flex items-center justify-center">
+              <div className="relative w-20 h-20 rounded-full overflow-hidden shadow-lg border-2 border-indigo-200">
+                <Image 
+                  src="/logo.jpeg" 
+                  alt="CogBioAV Lab Logo" 
+                  width={120} 
+                  height={120}
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            </div>
+
+            {/* Right Navigation - Resources, Album, Social Media, Profile */}
+            <div className="flex items-center gap-1">
+              <Link 
+                href="/resources" 
+                className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+              >
+                Resources
+              </Link>
+              <Link 
+                href="/album" 
+                className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+              >
+                Album
+              </Link>
+              <a 
+                href="https://youtube.com" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide flex items-center gap-1"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                <span className="hidden lg:inline">Social</span>
+              </a>
+              <a 
+                href="https://www.bu.ac.bd/profile/mmenoor" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+              >
+                Profile
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </>
   );
 }

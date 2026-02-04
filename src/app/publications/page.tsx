@@ -1,68 +1,53 @@
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 
-export default function Publications() {
-  const publications = [
-    {
-      citation: "Rahman, F., Halder, S., Rahman, S., & Hossen, M. L. (2025). Investigating the Therapeutic Ability of Novel Antimicrobial Peptide Dendropsophin 1 and Its Analogues through Membrane Disruption and Monomeric Pore Formation, The Journal of Physical Chemistry B.",
-      note: "(Featured on the cover page)",
-      doi: "https://doi.org/10.1021/acs.jpcb.4c07758"
-    },
-    {
-      citation: "Gressett, T.E., Hossen, M.L., Talkington, G., Volic, M., Perez, H., Tiwari, P.B., Chapagain, P. and Bix, G., 2023. Molecular Interactions between Perlecan LG3 and the SARS‐CoV‐2 spike protein RBD. Protein Science, p.e4843.",
-      note: "(Equal/Joint First Author) (Featured on the cover page)",
-      doi: "https://doi.org/10.1002/pro.4843"
-    },
-    {
-      citation: "Hossen, M. L., Baral, P., Sharma, T., Gerstman, B., & Chapagain, P. (2022). Significance of the RBD mutations in the SARS-CoV-2 Omicron: From spike opening to antibody escape and cell attachment. Physical Chemistry Chemical Physics, 24(16), 9123-9129.",
-      note: "",
-      doi: "https://doi.org/10.1039/D2CP00169A"
-    },
-    {
-      citation: "Baral, P., Bhattarai, N., Hossen, M. L., Stebliankin, V., Gerstman, B. S., Narasimhan, G., & Chapagain, P. P. (2021). Mutation-induced changes in the receptor-binding interface of the SARS-CoV-2 Delta variant B. 1.617. 2 and implications for immune evasion. Biochemical and biophysical research communications, 574, 14-19.",
-      note: "",
-      doi: "10.1016/j.bbrc.2021.08.036"
-    },
-    {
-      citation: "Bhattarai, N., Pavadai, E., Pokhrel, R., Baral, P., Hossen, M. L., Stahelin, R. V., ... & Gerstman, B. S. (2022). Ebola virus protein VP40 binding to Sec24c for transport to the plasma membrane. Proteins: Structure, Function, and Bioinformatics, 90(2), 340-350.",
-      note: "",
-      doi: "10.1002/prot.26221"
-    },
-    {
-      citation: "Barrios, A., Milan, M., Perozo, E., Hossen, M. L., Chapagain, P., & Moon, J. H. (2022). Effects of sidechain isomerism on polymer-based non-covalent protein delivery. Chemical Communications, 58(59), 8246-8249.",
-      note: "",
-      doi: "https://doi.org/10.1039/D2CC02343A"
-    },
-    {
-      citation: "Jeanne Dit Fouque, K., Sipe, S. N., Garabedian, A., Mejia, G., Su, L., Hossen, M. L., ... & Fernandez-Lima, F. (2022). Exploring the Conformational and Binding Dynamics of HMGA2·DNA Complexes Using Trapped Ion Mobility Spectrometry–Mass Spectrometry. Journal of the American Society for Mass Spectrometry, 33 (7), 1103-1112.",
-      note: "",
-      doi: "https://doi.org/10.1021/jasms.2c00101"
-    },
-    {
-      citation: "Nader, Danielle, Timothy E. Gressett, Md Lokman Hossen, Prem Chapagain, Steven W. Kerrigan, and Gregory Bix. (2022). A Dual-Receptor Mechanism Between Integrins And ACE2 Widens SARS-Cov-2 Tissue Tropism. BioRxiv (2022).",
-      note: "",
-      doi: "https://doi.org/10.1101/2022.01.02.474028"
-    }
-  ];
+interface Publication {
+  _id: string;
+  citation: string;
+  note?: string;
+  doi: string;
+  type: 'article' | 'book-chapter';
+}
 
-  const bookChapters = [
-    {
-      citation: "Hossen, M.L., Bhattarai, N. and Chapagain, P.P., 2024, The Role of Protonation in the PfMATE Transporter Protein. Protein Supersecondary Structures: Methods and Protocols, p.315.",
-      doi: "10.1007/978-1-0716-4213-9_16"
-    }
-  ];
+async function getPublications(): Promise<Publication[]> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3001'}/api/publications`, {
+      cache: 'no-store',
+    });
+    const data = await res.json();
+    return data.success ? data.data : [];
+  } catch (error) {
+    console.error('Error fetching publications:', error);
+    return [];
+  }
+}
+
+export default async function Publications() {
+  const allPublications = await getPublications();
+  const publications = allPublications.filter((pub) => pub.type === 'article');
+  const bookChapters = allPublications.filter((pub) => pub.type === 'book-chapter');
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
 
+      {/* Hero Banner */}
+      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900 to-black overflow-hidden">
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute left-0 top-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
+          <div className="absolute right-0 bottom-0 w-96 h-96 bg-cyan-500 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 py-16">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">Publications</h1>
+            <p className="text-gray-300 text-sm">Peer reviewed and preprint research</p>
+          </div>
+        </div>
+      </div>
+
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-12">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">Publications</h1>
-          <p className="text-gray-600 mb-4">Peer reviewed and Preprint</p>
-          <div className="w-24 h-1 bg-green-600 rounded"></div>
-        </div>
         
         {/* Profile Links */}
         <div className="flex gap-4 mb-8">

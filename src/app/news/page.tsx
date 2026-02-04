@@ -1,49 +1,45 @@
-import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 
-export default function News() {
-  const newsItems = [
-    {
-      category: 'Congratulations',
-      date: 'Oct 2022',
-      title: 'Dr. Yu Tsao is ranked as the Top 2% Most Influential Scientists (Single Year 2022)!',
-      icon: '🎉',
-    },
-    {
-      category: 'Congratulations',
-      date: 'Jan 2023',
-      title: 'Two papers were accepted to ICLR 2023!',
-      icon: '📄',
-    },
-    {
-      category: 'Congratulations',
-      date: 'Jul 2022',
-      title: 'We are awarded the 1st Place Prize in the Hearing Industry Research Consortium Student (Ryerson & Zucoski)!',
-      icon: '🏆',
-    },
-    {
-      category: 'Congratulations',
-      date: 'Jul 2022',
-      title: 'We are awarded the 1st Place Prize in the Machine Learning Challenges for Hearing Aids (Cadenza Challenge)!',
-      icon: '🏆',
-    },
-    {
-      category: 'Congratulations',
-      date: 'Jan 2022',
-      title: '11 papers were accepted to Interspeech 2022!',
-      icon: '📄',
-    },
-  ];
+interface NewsItem {
+  _id: string;
+  category: string;
+  date: string;
+  title: string;
+  icon: string;
+}
+
+async function getNews(): Promise<NewsItem[]> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3001'}/api/news`, {
+      cache: 'no-store',
+    });
+    const data = await res.json();
+    return data.success ? data.data : [];
+  } catch (error) {
+    console.error('Error fetching news:', error);
+    return [];
+  }
+}
+
+export default async function News() {
+  const newsItems = await getNews();
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
 
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-50 to-gray-50 py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-5xl font-bold text-gray-800 mb-4 text-center">News</h1>
-          <div className="w-24 h-1 bg-blue-600 rounded mx-auto"></div>
+      {/* Hero Banner */}
+      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900 to-black overflow-hidden">
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute left-0 top-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
+          <div className="absolute right-0 bottom-0 w-96 h-96 bg-cyan-500 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 py-16">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">News</h1>
+            <p className="text-gray-300 text-sm">Latest updates and announcements</p>
+          </div>
         </div>
       </div>
 
