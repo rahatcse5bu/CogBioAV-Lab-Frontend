@@ -14,9 +14,11 @@ interface SocialLink {
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSocialOpen, setIsSocialOpen] = useState(false);
+  const [isPublicationsOpen, setIsPublicationsOpen] = useState(false);
   const [logoUrl, setLogoUrl] = useState('/logo.jpeg');
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   const socialDropdownRef = useRef<HTMLDivElement>(null);
+  const publicationsDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -36,11 +38,14 @@ export default function Navigation() {
     fetchSettings();
   }, []);
 
-  // Close social dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (socialDropdownRef.current && !socialDropdownRef.current.contains(event.target as Node)) {
         setIsSocialOpen(false);
+      }
+      if (publicationsDropdownRef.current && !publicationsDropdownRef.current.contains(event.target as Node)) {
+        setIsPublicationsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -126,12 +131,71 @@ export default function Navigation() {
               >
                 Lab
               </Link>
-              <Link 
-                href="/publications" 
-                className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-3 xl:px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
-              >
-                Publication
-              </Link>
+              {/* Publications Dropdown */}
+              <div className="relative" ref={publicationsDropdownRef}>
+                <button 
+                  onClick={() => setIsPublicationsOpen(!isPublicationsOpen)}
+                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-3 xl:px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide flex items-center gap-1"
+                >
+                  Publication
+                  <svg className={`w-4 h-4 transition-transform ${isPublicationsOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {isPublicationsOpen && (
+                  <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                    <Link
+                      href="/publications?type=article"
+                      className="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 text-sm transition-colors"
+                      onClick={() => setIsPublicationsOpen(false)}
+                    >
+                      Articles
+                    </Link>
+                    <Link
+                      href="/publications?type=book"
+                      className="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 text-sm transition-colors"
+                      onClick={() => setIsPublicationsOpen(false)}
+                    >
+                      Books
+                    </Link>
+                    <Link
+                      href="/publications?type=book_chapter"
+                      className="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 text-sm transition-colors"
+                      onClick={() => setIsPublicationsOpen(false)}
+                    >
+                      Book Chapter
+                    </Link>
+                    <Link
+                      href="/publications?type=conference"
+                      className="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 text-sm transition-colors"
+                      onClick={() => setIsPublicationsOpen(false)}
+                    >
+                      Conferences
+                    </Link>
+                    <Link
+                      href="/publications"
+                      className="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 text-sm transition-colors"
+                      onClick={() => setIsPublicationsOpen(false)}
+                    >
+                      Publications
+                    </Link>
+                    <Link
+                      href="/publications?type=monograph"
+                      className="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 text-sm transition-colors"
+                      onClick={() => setIsPublicationsOpen(false)}
+                    >
+                      Monograph
+                    </Link>
+                    <Link
+                      href="/publications?type=workshop"
+                      className="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 text-sm transition-colors"
+                      onClick={() => setIsPublicationsOpen(false)}
+                    >
+                      Workshop
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Center spacer for logo */}
@@ -223,13 +287,59 @@ export default function Navigation() {
                 >
                   Lab Members
                 </Link>
-                <Link 
-                  href="/publications" 
-                  onClick={() => setIsMenuOpen(false)}
-                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-3 rounded transition-colors font-medium text-sm uppercase tracking-wide"
-                >
-                  Publications
-                </Link>
+                {/* Mobile Publications Submenu */}
+                <div className="border-t border-gray-100 pt-2 mt-2">
+                  <p className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Publications</p>
+                  <Link
+                    href="/publications?type=article"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-6 py-2 rounded transition-colors text-sm"
+                  >
+                    Articles
+                  </Link>
+                  <Link
+                    href="/publications?type=book"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-6 py-2 rounded transition-colors text-sm"
+                  >
+                    Books
+                  </Link>
+                  <Link
+                    href="/publications?type=book_chapter"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-6 py-2 rounded transition-colors text-sm"
+                  >
+                    Book Chapter
+                  </Link>
+                  <Link
+                    href="/publications?type=conference"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-6 py-2 rounded transition-colors text-sm"
+                  >
+                    Conferences
+                  </Link>
+                  <Link
+                    href="/publications"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-6 py-2 rounded transition-colors text-sm"
+                  >
+                    All Publications
+                  </Link>
+                  <Link
+                    href="/publications?type=monograph"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-6 py-2 rounded transition-colors text-sm"
+                  >
+                    Monograph
+                  </Link>
+                  <Link
+                    href="/publications?type=workshop"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-6 py-2 rounded transition-colors text-sm"
+                  >
+                    Workshop
+                  </Link>
+                </div>
                 <Link 
                   href="/resources" 
                   onClick={() => setIsMenuOpen(false)}

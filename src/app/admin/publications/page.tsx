@@ -94,7 +94,11 @@ export default function AdminPublications() {
                 <select value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                   className="w-full border rounded-lg px-4 py-2">
                   <option value="article">Article</option>
-                  <option value="book-chapter">Book Chapter</option>
+                  <option value="book">Book</option>
+                  <option value="book_chapter">Book Chapter</option>
+                  <option value="conference">Conference</option>
+                  <option value="monograph">Monograph</option>
+                  <option value="workshop">Workshop</option>
                 </select>
               </div>
               <button type="submit" className="bg-green-600 text-white px-6 py-2 rounded-lg">
@@ -107,8 +111,15 @@ export default function AdminPublications() {
         <div className="space-y-4">
           {publications.map((pub) => (
             <div key={pub._id} className="bg-white rounded-lg shadow p-4">
-              <p className="text-sm text-gray-700 mb-2">{pub.citation}</p>
-              {pub.note && <p className="text-xs text-blue-600 mb-2">{pub.note}</p>}
+              <div className="flex items-start justify-between mb-2">
+                <div className="flex-1">
+                  <p className="text-sm text-gray-700 mb-2">{pub.citation}</p>
+                  {pub.note && <p className="text-xs text-blue-600 mb-2">{pub.note}</p>}
+                </div>
+                <span className="ml-4 px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full capitalize">
+                  {pub.type.replace('_', ' ')}
+                </span>
+              </div>
               <div className="flex gap-2">
                 <button onClick={() => { setFormData(pub); setEditingId(pub._id); setShowForm(true); }}
                   className="text-blue-600 text-sm">Edit</button>

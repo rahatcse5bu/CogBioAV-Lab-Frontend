@@ -1,33 +1,82 @@
+'use client';
+
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
-import { connectDB } from '@/lib/mongodb';
-import Publication from '@/models/Publication';
-
-export const dynamic = 'force-dynamic';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 interface PublicationType {
   _id: string;
   citation: string;
   note?: string;
   doi: string;
-  type: 'article' | 'book-chapter';
+  type: string;
 }
 
-async function getPublications(): Promise<PublicationType[]> {
-  try {
-    await connectDB();
-    const publications = await Publication.find().sort({ createdAt: -1 }).lean();
-    return JSON.parse(JSON.stringify(publications));
-  } catch (error) {
-    console.error('Error fetching publications:', error);
-    return [];
-  }
-}
+const publicationTypeLabels: Record<string, { label: string; color: string; icon: string }> = {
+  article: { label: 'Articles', color: 'green', icon: '📄' },
+  book: { label: 'Books', color: 'blue', icon: '📚' },
+  book_chapter: { label: 'Book Chapters', color: 'orange', icon: '📖' },
+  conference: { label: 'Conferences', color: 'purple', icon: '🎤' },
+  monograph: { label: 'Monographs', color: 'red', icon: '📋' },
+  workshop: { label: 'Workshops', color: 'yellow', icon: '🔧' },
+};
 
-export default async function Publications() {
-  const allPublications = await getPublications();
-  const publications = allPublications.filter((pub) => pub.type === 'article');
-  const bookChapters = allPublications.filter((pub) => pub.type === 'book-chapter');
+function PublicationsContent() {
+  const [publications, setPublications] = useState<PublicationType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const typeFilter = searchParams.get('type');
+
+  useEffect(() => {
+    fetchPublications();
+  }, []);
+
+  const fetchPublications = async () => {
+    try {
+      const res = await fetch('/api/publications');
+      const data = await res.json();
+      if (data.success) {
+        setPublications(data.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch publications:', error);
+    }
+    setLoading(false);
+  };
+
+  // Filter publications based on type parameter
+  const filteredPublications = typeFilter 
+    ? publications.filter(pub => pub.type === typeFilter)
+    : publications;
+
+  // Group publications by type
+  const groupedPublications = filteredPublications.reduce((acc, pub) => {
+    if (!acc[pub.type]) {
+      acc[pub.type] = [];
+    }
+    acc[pub.type].push(pub);
+    return acc;
+  }, {} as Record<string, PublicationType[]>);
+
+  const getTypeConfig = (type: string) => {
+    return publicationTypeLabels[type] || { label: type, color: 'gray', icon: '📄' };
+  };
+
+  const getColorClasses = (color: string) => {
+    const colorMap: Record<string, { border: string; bg: string; text: string; bgHover: string }> = {
+      green: { border: 'border-green-500', bg: 'bg-green-100', text: 'text-green-600', bgHover: 'hover:bg-green-100' },
+      blue: { border: 'border-blue-500', bg: 'bg-blue-100', text: 'text-blue-600', bgHover: 'hover:bg-blue-100' },
+      orange: { border: 'border-orange-500', bg: 'bg-orange-100', text: 'text-orange-600', bgHover: 'hover:bg-orange-100' },
+      purple: { border: 'border-purple-500', bg: 'bg-purple-100', text: 'text-purple-600', bgHover: 'hover:bg-purple-100' },
+      red: { border: 'border-red-500', bg: 'bg-red-100', text: 'text-red-600', bgHover: 'hover:bg-red-100' },
+      yellow: { border: 'border-yellow-500', bg: 'bg-yellow-100', text: 'text-yellow-600', bgHover: 'hover:bg-yellow-100' },
+      gray: { border: 'border-gray-500', bg: 'bg-gray-100', text: 'text-gray-600', bgHover: 'hover:bg-gray-100' },
+    };
+    return colorMap[color] || colorMap.gray;
+  };
+
+  const currentTypeLabel = typeFilter ? getTypeConfig(typeFilter).label : 'All Publications';
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -42,8 +91,13 @@ export default async function Publications() {
         
         <div className="relative max-w-7xl mx-auto px-4 py-10 sm:py-12 md:py-16">
           <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">Publications</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">{currentTypeLabel}</h1>
             <p className="text-gray-300 text-xs sm:text-sm">Peer reviewed and preprint research</p>
+            {typeFilter && (
+              <Link href="/publications" className="inline-block mt-4 text-blue-300 hover:text-white transition-colors">
+                ← View All Publications
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -51,92 +105,96 @@ export default async function Publications() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8 sm:py-10 md:py-12">
         
-        {/* Profile Links */}
-        <div className="flex flex-wrap gap-3 sm:gap-4 mb-6 sm:mb-8">
-          <a 
-            href="#" 
-            className="inline-flex items-center gap-2 bg-white px-3 sm:px-4 py-2 rounded-lg shadow hover:shadow-md transition-shadow border border-gray-200 text-gray-700 hover:text-green-600 text-sm"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm.5 4.5a.5.5 0 11-1 0 .5.5 0 011 0zm2.5 15.5h-6v-1.5h2V11h-2V9.5h3.5v9h2V20z"/>
-            </svg>
-            ORCiD
-          </a>
-          <a 
-            href="#" 
-            className="inline-flex items-center gap-2 text-blue-600 hover:underline font-medium text-sm"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm.5 4.5a.5.5 0 11-1 0 .5.5 0 011 0zm2.5 15.5h-6v-1.5h2V11h-2V9.5h3.5v9h2V20z"/>
-            </svg>
-            Google Scholar
-          </a>
-        </div>
+        {/* Filter Tabs */}
+        {!typeFilter && (
+          <div className="flex flex-wrap gap-2 mb-8">
+            <Link 
+              href="/publications"
+              className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium"
+            >
+              All ({publications.length})
+            </Link>
+            {Object.entries(publicationTypeLabels).map(([type, config]) => {
+              const count = publications.filter(pub => pub.type === type).length;
+              if (count === 0) return null;
+              const colors = getColorClasses(config.color);
+              return (
+                <Link 
+                  key={type}
+                  href={`/publications?type=${type}`}
+                  className={`px-4 py-2 rounded-lg ${colors.bg} ${colors.text} text-sm font-medium ${colors.bgHover} transition-colors`}
+                >
+                  {config.icon} {config.label} ({count})
+                </Link>
+              );
+            })}
+          </div>
+        )}
 
-        {/* Publications List */}
-        <div className="space-y-4 sm:space-y-5 md:space-y-6 mb-8 sm:mb-10 md:mb-12">
-          {publications.map((pub, index) => (
-            <div key={index} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow p-4 sm:p-5 md:p-6 border-l-4 border-green-600">
-              <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
-                <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto sm:mx-0">
-                  <span className="text-green-600 font-bold text-base sm:text-lg">{index + 1}</span>
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mx-auto"></div>
+          </div>
+        ) : filteredPublications.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">No publications found.</p>
+          </div>
+        ) : (
+          <div className="space-y-12">
+            {Object.entries(groupedPublications).map(([type, pubs]) => {
+              const typeConfig = getTypeConfig(type);
+              const colors = getColorClasses(typeConfig.color);
+              
+              return (
+                <div key={type}>
+                  {!typeFilter && (
+                    <div className="mb-6">
+                      <h2 className="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+                        <span className="text-2xl">{typeConfig.icon}</span>
+                        {typeConfig.label}
+                        <span className="text-lg text-gray-500">({pubs.length})</span>
+                      </h2>
+                      <div className={`w-24 h-1 ${colors.bg} rounded`}></div>
+                    </div>
+                  )}
+                  
+                  <div className="space-y-4">
+                    {pubs.map((pub, index) => (
+                      <div key={pub._id} className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow p-4 sm:p-5 md:p-6 border-l-4 ${colors.border}`}>
+                        <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+                          <div className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 ${colors.bg} rounded-lg flex items-center justify-center mx-auto sm:mx-0`}>
+                            <span className={`${colors.text} font-bold text-base sm:text-lg`}>{index + 1}</span>
+                          </div>
+                          <div className="flex-1 text-center sm:text-left">
+                            <p className="text-sm sm:text-base text-gray-700 mb-3 leading-relaxed">
+                              {pub.citation}
+                              {pub.note && (
+                                <span className={`ml-2 inline-block ${colors.bg} ${colors.text} px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium border ${colors.border.replace('border-', 'border-')}`}>
+                                  {pub.note}
+                                </span>
+                              )}
+                            </p>
+                            <a 
+                              href={pub.doi.startsWith('http') ? pub.doi : `https://doi.org/${pub.doi}`}
+                              className={`inline-flex items-center gap-2 ${colors.text} ${colors.bgHover} text-xs sm:text-sm font-medium ${colors.bg} px-3 py-1 rounded-lg transition-colors`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              </svg>
+                              <span>View Publication</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex-1 text-center sm:text-left">
-              <p className="text-sm sm:text-base text-gray-700 mb-3 leading-relaxed">
-                {pub.citation}
-                {pub.note && (
-                  <span className="ml-2 inline-block bg-green-50 text-green-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium border border-green-200">{pub.note}</span>
-                )}
-              </p>
-              <a 
-                href={pub.doi} 
-                className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 text-xs sm:text-sm font-medium bg-green-50 px-3 py-1 rounded-lg hover:bg-green-100 transition-colors"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                <span>View Publication</span>
-              </a>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Book Chapters */}
-        <div className="mb-6 sm:mb-8">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-2">Book Chapter</h2>
-          <div className="w-16 sm:w-20 md:w-24 h-1 bg-green-600 rounded"></div>
-        </div>
-        <div className="space-y-4 sm:space-y-5 md:space-y-6">
-          {bookChapters.map((chapter, index) => (
-            <div key={index} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow p-4 sm:p-5 md:p-6 border-l-4 border-orange-500">
-              <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
-                <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto sm:mx-0">
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                </div>
-                <div className="flex-1 text-center sm:text-left">
-              <p className="text-sm sm:text-base text-gray-700 mb-3 leading-relaxed">
-                {chapter.citation}
-              </p>
-              <a 
-                href={`https://doi.org/${chapter.doi}`} 
-                className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 text-xs sm:text-sm font-medium bg-orange-50 px-3 py-1 rounded-lg hover:bg-orange-100 transition-colors"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                <span>View Chapter</span>
-              </a>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </main>
 
       {/* Footer */}
@@ -154,5 +212,13 @@ export default async function Publications() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function Publications() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PublicationsContent />
+    </Suspense>
   );
 }

@@ -4,7 +4,11 @@ const PublicationSchema = new mongoose.Schema({
   citation: { type: String, required: true },
   note: { type: String, default: '' },
   doi: { type: String, required: true },
-  type: { type: String, enum: ['article', 'book-chapter'], default: 'article' },
+  type: { 
+    type: String, 
+    enum: ['article', 'book', 'book_chapter', 'conference', 'monograph', 'workshop'], 
+    default: 'article' 
+  },
 }, {
   timestamps: true,
 });
