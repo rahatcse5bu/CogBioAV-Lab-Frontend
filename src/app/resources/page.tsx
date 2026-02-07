@@ -33,25 +33,25 @@ export default async function Resources() {
       {/* Hero Banner */}
       <div className="relative bg-gradient-to-r from-gray-900 via-blue-900 to-black overflow-hidden">
         <div className="absolute inset-0 opacity-30">
-          <div className="absolute left-0 top-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
-          <div className="absolute right-0 bottom-0 w-96 h-96 bg-cyan-500 rounded-full blur-3xl"></div>
+          <div className="absolute left-0 top-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-blue-500 rounded-full blur-3xl"></div>
+          <div className="absolute right-0 bottom-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-cyan-500 rounded-full blur-3xl"></div>
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 py-16">
+        <div className="relative max-w-7xl mx-auto px-4 py-10 sm:py-12 md:py-16">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">Research Resources</h1>
-            <p className="text-gray-300 text-sm">Essential tools for audio-visual biomedical research</p>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2">Research Resources</h1>
+            <p className="text-gray-300 text-xs sm:text-sm">Essential tools for audio-visual biomedical research</p>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-12">
+      <main className="max-w-7xl mx-auto px-4 py-8 sm:py-10 md:py-12">
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
           {resources.map((resource, index) => (
-            <div key={index} className="bg-white rounded-lg shadow hover:shadow-lg transition-all p-4 border-l-4 border-blue-600">
-              <h2 className="text-base font-bold text-gray-800 mb-2">
+            <div key={index} className="bg-white rounded-lg shadow hover:shadow-lg transition-all p-3 sm:p-4 border-l-4 border-blue-600">
+              <h2 className="text-sm sm:text-base font-bold text-gray-800 mb-2">
                 {resource.title}
               </h2>
               <p className="text-gray-600 mb-3 text-xs leading-relaxed">
@@ -74,14 +74,14 @@ export default async function Resources() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-gray-900 via-blue-900 to-black text-white mt-16">
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <p className="font-bold text-xl">Cog-Bio<span className="text-blue-400">AV</span> Lab</p>
-              <p className="text-gray-300 text-sm mt-1">University of Barishal</p>
+      <footer className="bg-gradient-to-r from-gray-900 via-blue-900 to-black text-white mt-12 sm:mt-14 md:mt-16">
+        <div className="max-w-7xl mx-auto px-4 py-6 sm:py-8">
+          <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+            <div className="mb-3 sm:mb-4 md:mb-0">
+              <p className="font-bold text-lg sm:text-xl">Cog-Bio<span className="text-blue-400">AV</span> Lab</p>
+              <p className="text-gray-300 text-xs sm:text-sm mt-1">University of Barishal</p>
             </div>
-            <div className="text-gray-300 text-sm">
+            <div className="text-gray-300 text-xs sm:text-sm">
               <p>&copy; {new Date().getFullYear()} All rights reserved.</p>
             </div>
           </div>
