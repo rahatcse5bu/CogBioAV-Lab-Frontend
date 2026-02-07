@@ -1,20 +1,22 @@
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
+import { connectDB } from '@/lib/mongodb';
+import Resource from '@/models/Resource';
 
-interface Resource {
+export const dynamic = 'force-dynamic';
+
+interface ResourceType {
   _id: string;
   title: string;
   description: string;
   link: string;
 }
 
-async function getResources(): Promise<Resource[]> {
+async function getResources(): Promise<ResourceType[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3001'}/api/resources`, {
-      cache: 'no-store',
-    });
-    const data = await res.json();
-    return data.success ? data.data : [];
+    await connectDB();
+    const resources = await Resource.find().sort({ createdAt: -1 }).lean();
+    return JSON.parse(JSON.stringify(resources));
   } catch (error) {
     console.error('Error fetching resources:', error);
     return [];

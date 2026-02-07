@@ -1,7 +1,11 @@
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
+import { connectDB } from '@/lib/mongodb';
+import Member from '@/models/Member';
 
-interface Member {
+export const dynamic = 'force-dynamic';
+
+interface MemberType {
   _id: string;
   name: string;
   degree: string;
@@ -11,13 +15,11 @@ interface Member {
   contact?: string;
 }
 
-async function getMembers(): Promise<Member[]> {
+async function getMembers(): Promise<MemberType[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3001'}/api/members`, {
-      cache: 'no-store',
-    });
-    const data = await res.json();
-    return data.success ? data.data : [];
+    await connectDB();
+    const members = await Member.find().sort({ createdAt: -1 }).lean();
+    return JSON.parse(JSON.stringify(members));
   } catch (error) {
     console.error('Error fetching members:', error);
     return [];

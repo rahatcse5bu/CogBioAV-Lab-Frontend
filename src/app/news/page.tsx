@@ -1,4 +1,8 @@
 import Navigation from '@/components/Navigation';
+import { connectDB } from '@/lib/mongodb';
+import NewsModel from '@/models/News';
+
+export const dynamic = 'force-dynamic';
 
 interface NewsItem {
   _id: string;
@@ -10,18 +14,16 @@ interface NewsItem {
 
 async function getNews(): Promise<NewsItem[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3001'}/api/news`, {
-      cache: 'no-store',
-    });
-    const data = await res.json();
-    return data.success ? data.data : [];
+    await connectDB();
+    const news = await NewsModel.find().sort({ createdAt: -1 }).lean();
+    return JSON.parse(JSON.stringify(news));
   } catch (error) {
     console.error('Error fetching news:', error);
     return [];
   }
 }
 
-export default async function News() {
+export default async function NewsPage() {
   const newsItems = await getNews();
 
   return (

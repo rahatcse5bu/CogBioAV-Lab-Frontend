@@ -1,7 +1,11 @@
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
+import { connectDB } from '@/lib/mongodb';
+import Publication from '@/models/Publication';
 
-interface Publication {
+export const dynamic = 'force-dynamic';
+
+interface PublicationType {
   _id: string;
   citation: string;
   note?: string;
@@ -9,13 +13,11 @@ interface Publication {
   type: 'article' | 'book-chapter';
 }
 
-async function getPublications(): Promise<Publication[]> {
+async function getPublications(): Promise<PublicationType[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3001'}/api/publications`, {
-      cache: 'no-store',
-    });
-    const data = await res.json();
-    return data.success ? data.data : [];
+    await connectDB();
+    const publications = await Publication.find().sort({ createdAt: -1 }).lean();
+    return JSON.parse(JSON.stringify(publications));
   } catch (error) {
     console.error('Error fetching publications:', error);
     return [];
