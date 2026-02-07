@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface Member {
@@ -37,11 +38,7 @@ export default function MyProfilePage() {
   const [saving, setSaving] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
 
-  useEffect(() => {
-    fetchCurrentUser();
-  }, []);
-
-  const fetchCurrentUser = async () => {
+  const fetchCurrentUser = useCallback(async () => {
     try {
       const res = await fetch('/api/auth/login');
       const data = await res.json();
@@ -66,7 +63,11 @@ export default function MyProfilePage() {
       router.push('/admin/login');
     }
     setLoading(false);
-  };
+  }, [router]);
+
+  useEffect(() => {
+    fetchCurrentUser();
+  }, [fetchCurrentUser]);
 
   const handleLogout = async () => {
     await fetch('/api/auth/login', { method: 'DELETE' });
@@ -239,7 +240,7 @@ export default function MyProfilePage() {
             <div className="flex items-center gap-6">
               <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
                 {member.image ? (
-                  <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                  <Image src={member.image} alt={member.name} className="w-full h-full object-cover" width={128} height={128} />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-gray-400">No Photo</div>
                 )}
