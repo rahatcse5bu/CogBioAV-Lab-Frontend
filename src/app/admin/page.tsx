@@ -42,6 +42,7 @@ export default function AdminDashboard() {
   const [publicationsCount, setPublicationsCount] = useState(0);
   const [membersCount, setMembersCount] = useState(0);
   const [resourcesCount, setResourcesCount] = useState(0);
+  const [albumsCount, setAlbumsCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const handleLogout = async () => {
@@ -52,22 +53,25 @@ export default function AdminDashboard() {
 
   const fetchCounts = async () => {
     try {
-      const [newsRes, pubsRes, membersRes, resourcesRes] = await Promise.all([
+      const [newsRes, pubsRes, membersRes, resourcesRes, albumsRes] = await Promise.all([
         fetch('/api/news'),
         fetch('/api/publications'),
         fetch('/api/members'),
         fetch('/api/resources'),
+        fetch('/api/albums'),
       ]);
 
       const news = await newsRes.json();
       const pubs = await pubsRes.json();
       const members = await membersRes.json();
       const resources = await resourcesRes.json();
+      const albums = await albumsRes.json();
 
       setNewsCount(news.data?.length || 0);
       setPublicationsCount(pubs.data?.length || 0);
       setMembersCount(members.data?.length || 0);
       setResourcesCount(resources.data?.length || 0);
+      setAlbumsCount(albums.data?.length || 0);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching counts:', error);
@@ -165,6 +169,17 @@ export default function AdminDashboard() {
 
         {/* Management Links */}
         <div className="grid md:grid-cols-2 gap-6">
+          {/* Homepage Editor - Featured */}
+          <Link href="/admin/homepage" className="block bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow md:col-span-2">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-white">Edit Homepage</h2>
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+            </div>
+            <p className="text-blue-100 text-sm">Edit hero section, about, research areas, contact info, and footer</p>
+          </Link>
+
           <Link href="/admin/news" className="block bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-gray-800">Manage News</h2>
@@ -203,6 +218,37 @@ export default function AdminDashboard() {
               </svg>
             </div>
             <p className="text-gray-600 text-sm">Add, edit, or delete research resources</p>
+          </Link>
+
+          <Link href="/admin/albums" className="block bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-gray-800">Manage Albums</h2>
+              <svg className="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <p className="text-gray-600 text-sm">Create albums and upload photos ({albumsCount} albums)</p>
+          </Link>
+
+          <Link href="/admin/users" className="block bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-gray-800">Manage Users</h2>
+              <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
+            <p className="text-gray-600 text-sm">Create login accounts for lab members</p>
+          </Link>
+
+          <Link href="/admin/settings" className="block bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow border-2 border-dashed border-gray-300">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-gray-800">Site Settings</h2>
+              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <p className="text-gray-600 text-sm">Upload logo and configure site settings</p>
           </Link>
         </div>
 

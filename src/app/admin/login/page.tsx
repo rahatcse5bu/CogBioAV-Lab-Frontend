@@ -25,10 +25,15 @@ export default function AdminLogin() {
       const data = await res.json();
 
       if (data.success) {
-        router.push('/admin');
+        // Redirect based on user role
+        if (data.user?.role === 'member') {
+          router.push('/my-profile');
+        } else {
+          router.push('/admin');
+        }
         router.refresh();
       } else {
-        setError('Invalid username or password');
+        setError(data.error || 'Invalid username/email or password');
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
@@ -61,14 +66,14 @@ export default function AdminLogin() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Username
+                Username or Email
               </label>
               <input
                 type="text"
                 value={formData.username}
                 onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter username"
+                placeholder="Enter username or email"
                 required
                 disabled={loading}
               />
@@ -110,7 +115,7 @@ export default function AdminLogin() {
 
         {/* Info */}
         <div className="mt-6 text-center text-gray-400 text-sm">
-          <p>Default credentials: admin / admin123</p>
+          <p>Login with your email or admin username</p>
         </div>
       </div>
     </div>
