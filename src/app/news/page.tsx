@@ -1,6 +1,6 @@
 import Navigation from '@/components/Navigation';
-import { connectDB } from '@/lib/mongodb';
-import NewsModel from '@/models/News';
+import { prisma } from '@/lib/prisma';
+import { toClientDoc } from '@/lib/db-mappers';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,9 +14,10 @@ interface NewsItem {
 
 async function getNews(): Promise<NewsItem[]> {
   try {
-    await connectDB();
-    const news = await NewsModel.find().sort({ createdAt: -1 }).lean();
-    return JSON.parse(JSON.stringify(news));
+    const news = await prisma.news.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+    return news.map((item) => toClientDoc(item as any)) as NewsItem[];
   } catch (error) {
     console.error('Error fetching news:', error);
     return [];

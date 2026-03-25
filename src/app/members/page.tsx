@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Navigation from '@/components/Navigation';
-import { connectDB } from '@/lib/mongodb';
-import Member from '@/models/Member';
+import { prisma } from '@/lib/prisma';
+import { toClientDoc } from '@/lib/db-mappers';
 import { FaEnvelope, FaGlobe } from 'react-icons/fa';
 import { SiGooglescholar } from 'react-icons/si';
 
@@ -30,9 +30,10 @@ interface MemberType {
 
 async function getMembers(): Promise<MemberType[]> {
   try {
-    await connectDB();
-    const members = await Member.find().sort({ order: 1, createdAt: -1 }).lean();
-    return JSON.parse(JSON.stringify(members));
+    const members = await prisma.member.findMany({
+      orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
+    });
+    return members.map((member) => toClientDoc(member as any)) as MemberType[];
   } catch (error) {
     console.error('Error fetching members:', error);
     return [];

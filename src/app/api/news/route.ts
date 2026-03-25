@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/lib/mongodb';
-import News from '@/models/News';
+import { prisma } from '@/lib/prisma';
+import { sanitizePrismaPayload, toClientDoc } from '@/lib/db-mappers';
 
 export async function GET() {
   try {
-    await connectDB();
-    const news = await News.find().sort({ createdAt: -1 });
-    return NextResponse.json({ success: true, data: news });
+    const news = await prisma.news.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+    return NextResponse.json({ success: true, data: news.map(toClientDoc as any) });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
@@ -14,10 +15,10 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
     const body = await request.json();
-    const news = await News.create(body);
-    return NextResponse.json({ success: true, data: news }, { status: 201 });
+    const payload = sanitizePrismaPayload(body);
+    const news = await prisma.news.create({ data: payload as any });
+    return NextResponse.json({ success: true, data: toClientDoc(news as any) }, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }

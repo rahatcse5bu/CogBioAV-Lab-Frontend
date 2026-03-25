@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
-import { connectDB } from '@/lib/mongodb';
-import Homepage from '@/models/Homepage';
+import { prisma } from '@/lib/prisma';
 import { ReactElement } from 'react';
 
 export const dynamic = 'force-dynamic';
@@ -32,12 +31,30 @@ const colorMap: Record<string, { border: string; bg: string; text: string; hover
 
 async function getHomepageData() {
   try {
-    await connectDB();
-    let data = await Homepage.findOne().lean();
+    let data = await prisma.homepage.findFirst({
+      orderBy: { createdAt: 'asc' },
+    });
     if (!data) {
-      data = await Homepage.create({});
+      data = await prisma.homepage.create({
+        data: {
+          heroTitle: 'Cog-Bio',
+          heroHighlight: 'AV',
+          heroSubtitle: 'Cognitive Audio-Visual Biomedical Research Laboratory',
+          aboutTitle: 'About the Laboratory',
+          aboutContent: [],
+          researchTitle: 'Research Focus Areas',
+          researchAreas: [],
+          contactTitle: 'Contact Information',
+          contactEmail: 'mmenoor@bu.ac.bd',
+          contactLocation: [],
+          piName: 'Md Mahbub E Noor',
+          piTitle: 'Assistant Professor',
+          department: 'Computer Science & Engineering',
+          footerText: 'University of Barishal',
+        },
+      });
     }
-    return data;
+    return data as any;
   } catch (error) {
     console.error('Error fetching homepage:', error);
     return null;

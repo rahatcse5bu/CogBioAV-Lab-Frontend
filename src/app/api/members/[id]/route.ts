@@ -1,19 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/lib/mongodb';
-import Member from '@/models/Member';
+import { prisma } from '@/lib/prisma';
+import { parseOptionalDate, sanitizePrismaPayload, toClientDoc } from '@/lib/db-mappers';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await connectDB();
     const { id } = await params;
-    const member = await Member.findById(id);
+    const member = await prisma.member.findUnique({ where: { id } });
     if (!member) {
       return NextResponse.json({ success: false, error: 'Member not found' }, { status: 404 });
     }
-    return NextResponse.json({ success: true, data: member });
+    return NextResponse.json({ success: true, data: toClientDoc(member as any) });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
@@ -24,15 +23,28 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await connectDB();
     const { id } = await params;
     const body = await request.json();
-    const member = await Member.findByIdAndUpdate(id, body, { new: true });
+    const payload = sanitizePrismaPayload(body);
+    const joinDate = parseOptionalDate(payload.joinDate);
+    const graduationDate = parseOptionalDate(payload.graduationDate);
+
+    const member = await prisma.member.update({
+      where: { id },
+      data: {
+        ...payload,
+        joinDate: joinDate ?? undefined,
+        graduationDate: graduationDate ?? undefined,
+      } as any,
+    });
     if (!member) {
       return NextResponse.json({ success: false, error: 'Member not found' }, { status: 404 });
     }
-    return NextResponse.json({ success: true, data: member });
+    return NextResponse.json({ success: true, data: toClientDoc(member as any) });
   } catch (error: any) {
+    if (error?.code === 'P2025') {
+      return NextResponse.json({ success: false, error: 'Member not found' }, { status: 404 });
+    }
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
 }
@@ -42,12 +54,12 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await connectDB();
     const { id } = await params;
-    const member = await Member.findByIdAndDelete(id);
+    const member = await prisma.member.findUnique({ where: { id } });
     if (!member) {
       return NextResponse.json({ success: false, error: 'Member not found' }, { status: 404 });
     }
+    await prisma.member.delete({ where: { id } });
     return NextResponse.json({ success: true, data: {} });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

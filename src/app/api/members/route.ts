@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/lib/mongodb';
-import Member from '@/models/Member';
+import { prisma } from '@/lib/prisma';
+import { parseOptionalDate, sanitizePrismaPayload, toClientDoc } from '@/lib/db-mappers';
 
 export async function GET() {
   try {
-    await connectDB();
-    const members = await Member.find().sort({ createdAt: -1 });
-    return NextResponse.json({ success: true, data: members });
+    const members = await prisma.member.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+    return NextResponse.json({ success: true, data: members.map(toClientDoc) });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
@@ -14,10 +15,26 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
     const body = await request.json();
-    const member = await Member.create(body);
-    return NextResponse.json({ success: true, data: member }, { status: 201 });
+    const payload = sanitizePrismaPayload(body);
+    const joinDate = parseOptionalDate(payload.joinDate);
+    const graduationDate = parseOptionalDate(payload.graduationDate);
+
+    const member = await prisma.member.create({
+      data: {
+        ...payload,
+        researchInterests: body.researchInterests ?? [],
+        education: body.education ?? [],
+        experience: body.experience ?? [],
+        selectedPublications: body.selectedPublications ?? [],
+        awards: body.awards ?? [],
+        skills: body.skills ?? [],
+        courses: body.courses ?? [],
+        joinDate: joinDate ?? undefined,
+        graduationDate: graduationDate ?? undefined,
+      } as any,
+    });
+    return NextResponse.json({ success: true, data: toClientDoc(member) }, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }

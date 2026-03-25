@@ -1,19 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/lib/mongodb';
-import Publication from '@/models/Publication';
+import { prisma } from '@/lib/prisma';
+import { sanitizePrismaPayload, toClientDoc } from '@/lib/db-mappers';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await connectDB();
     const { id } = await params;
-    const publication = await Publication.findById(id);
+    const publication = await prisma.publication.findUnique({ where: { id } });
     if (!publication) {
       return NextResponse.json({ success: false, error: 'Publication not found' }, { status: 404 });
     }
-    return NextResponse.json({ success: true, data: publication });
+    return NextResponse.json({ success: true, data: toClientDoc(publication as any) });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
@@ -24,15 +23,18 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await connectDB();
     const { id } = await params;
     const body = await request.json();
-    const publication = await Publication.findByIdAndUpdate(id, body, { new: true });
+    const payload = sanitizePrismaPayload(body);
+    const publication = await prisma.publication.update({ where: { id }, data: payload });
     if (!publication) {
       return NextResponse.json({ success: false, error: 'Publication not found' }, { status: 404 });
     }
-    return NextResponse.json({ success: true, data: publication });
+    return NextResponse.json({ success: true, data: toClientDoc(publication as any) });
   } catch (error: any) {
+    if (error?.code === 'P2025') {
+      return NextResponse.json({ success: false, error: 'Publication not found' }, { status: 404 });
+    }
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
 }
@@ -42,12 +44,12 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await connectDB();
     const { id } = await params;
-    const publication = await Publication.findByIdAndDelete(id);
+    const publication = await prisma.publication.findUnique({ where: { id } });
     if (!publication) {
       return NextResponse.json({ success: false, error: 'Publication not found' }, { status: 404 });
     }
+    await prisma.publication.delete({ where: { id } });
     return NextResponse.json({ success: true, data: {} });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

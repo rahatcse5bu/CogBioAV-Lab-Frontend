@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Homepage {
+  id              String   @id @default(cuid())
+  heroTitle       String
+  heroHighlight   String
+  heroSubtitle    String
+  aboutTitle      String
+  aboutContent    Json
+  researchTitle   String
+  researchAreas   Json
+  contactTitle    String
+  contactEmail    String
+  contactLocation Json
+  piName          String
+  piTitle         String
+  department      String
+  footerText      String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Member {
+  id                   String   @id @default(cuid())
+  name                 String
+  degree               String
+  award                String   @default("")
+  description          String
+  type                 String   @default("member")
+  email                String   @default("")
+  title                String   @default("")
+  department           String   @default("")
+  institution          String   @default("")
+  photo                String   @default("")
+  phone                String   @default("")
+  website              String   @default("")
+  googleScholar        String   @default("")
+  researchGate         String   @default("")
+  linkedin             String   @default("")
+  github               String   @default("")
+  orcid                String   @default("")
+  biography            String   @default("")
+  researchInterests    Json?
+  education            Json?
+  experience           Json?
+  selectedPublications Json?
+  awards               Json?
+  skills               Json?
+  courses              Json?
+  status               String   @default("active")
+  joinDate             DateTime?
+  graduationDate       DateTime?
+  currentPosition      String   @default("")
+  order                Int      @default(0)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  users User[]
+}
+
+model News {
+  id        String   @id @default(cuid())
+  category  String
+  date      String
+  title     String
+  icon      String   @default("📄")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Publication {
+  id        String   @id @default(cuid())
+  citation  String
+  note      String   @default("")
+  doi       String
+  type      String   @default("article")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Resource {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  link        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PhotoAlbum {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @default("")
+  coverImage  String   @default("")
+  photos      Json?
+  category    String   @default("General")
+  date        DateTime @default(now())
+  isPublished Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("member")
+  memberId  String?
+  isActive  Boolean  @default(true)
+  lastLogin DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  member Member? @relation(fields: [memberId], references: [id], onDelete: SetNull)
+
+  @@index([memberId])
+}
