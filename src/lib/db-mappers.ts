@@ -35,7 +35,12 @@ export function parseOptionalDate(value: unknown): Date | null | undefined {
   if (value instanceof Date) return value;
 
   if (typeof value === 'string') {
-    const normalized = value.length === 10 ? `${value}T00:00:00.000Z` : value;
+    const trimmed = value.trim();
+    if (!trimmed) return null;
+
+    const normalized = /^\d{4}-\d{2}-\d{2}$/.test(trimmed)
+      ? `${trimmed}T00:00:00.000Z`
+      : trimmed;
     const parsed = new Date(normalized);
     if (!Number.isNaN(parsed.getTime())) return parsed;
     return null;

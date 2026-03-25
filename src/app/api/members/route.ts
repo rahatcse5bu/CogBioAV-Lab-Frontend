@@ -16,9 +16,9 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const payload = sanitizePrismaPayload(body);
-    const joinDate = parseOptionalDate(payload.joinDate);
-    const graduationDate = parseOptionalDate(payload.graduationDate);
+    const payload = sanitizePrismaPayload(body, ['joinDate', 'graduationDate']);
+    const joinDate = parseOptionalDate(body.joinDate);
+    const graduationDate = parseOptionalDate(body.graduationDate);
 
     const member = await prisma.member.create({
       data: {

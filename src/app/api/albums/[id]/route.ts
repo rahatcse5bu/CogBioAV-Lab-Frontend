@@ -25,8 +25,8 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const payload = sanitizePrismaPayload(body);
-    const albumDate = parseOptionalDate(payload.date);
+    const payload = sanitizePrismaPayload(body, ['date']);
+    const albumDate = parseOptionalDate(body.date);
     const album = await prisma.photoAlbum.update({
       where: { id },
       data: {
