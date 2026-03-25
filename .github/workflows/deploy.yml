@@ -18,12 +18,12 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+          key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            cd public_html/your_project
+            cd ~/public_html/cogbioav
             git pull origin main
             npm install
+            npm exec prisma generate
+            npm exec prisma db push --skip-generate
             npm run build
-            pm2 restart all
-            
