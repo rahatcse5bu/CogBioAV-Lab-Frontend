@@ -25,8 +25,15 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const payload = sanitizePrismaPayload(body, ['date']);
+    const sanitized = sanitizePrismaPayload(body, ['date', 'photos']);
+    const { date: _date, photos: _photos, ...payload } = sanitized;
     const albumDate = parseOptionalDate(body.date);
+    if (body.date !== undefined && albumDate === null) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid date format. Use YYYY-MM-DD or ISO-8601 DateTime.' },
+        { status: 400 }
+      );
+    }
     const album = await prisma.photoAlbum.update({
       where: { id },
       data: {
