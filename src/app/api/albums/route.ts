@@ -16,15 +16,8 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const sanitized = sanitizePrismaPayload(body, ['date', 'photos']);
-    const { date: _date, photos: _photos, ...payload } = sanitized;
+    const payload = sanitizePrismaPayload(body, ['date']);
     const albumDate = parseOptionalDate(body.date);
-    if (body.date !== undefined && albumDate === null) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid date format. Use YYYY-MM-DD or ISO-8601 DateTime.' },
-        { status: 400 }
-      );
-    }
     const album = await prisma.photoAlbum.create({
       data: {
         ...payload,
