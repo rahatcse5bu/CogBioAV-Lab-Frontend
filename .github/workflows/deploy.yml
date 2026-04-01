@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main   # change if your branch is different
-  workflow_dispatch:
 
 jobs:
   deploy:
@@ -14,23 +13,17 @@ jobs:
       - name: 📥 Checkout code
         uses: actions/checkout@v3
 
-      - name: 🚀 Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: 🚀 Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT }}
-          protocol: ftp
-          server-dir: /public_html/cogbioav/
-          exclude: |
-            **/.git*/**
-            **/.git*
-            **/node_modules/**
-            **/.next/**
-            **/.vercel/**
-            **/.vscode/**
-            **/coverage/**
-            **/.DS_Store
-            **/*.log
-            **/.env*
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ~/public_html/cogbioav
+            git pull origin main
+            npm install
+            npm exec prisma generate
+            npm exec prisma db push --skip-generate
+            npm run build
