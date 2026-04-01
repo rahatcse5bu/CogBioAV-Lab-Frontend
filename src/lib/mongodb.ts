@@ -42,6 +42,5 @@ export async function connectDB() {
     cached.promise = null;
     throw e;
   }
-
   return cached.conn;
 }
