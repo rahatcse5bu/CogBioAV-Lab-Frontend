@@ -16,8 +16,8 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const payload = sanitizePrismaPayload(body, ['date']);
-    const albumDate = parseOptionalDate(body.date);
+    const payload = sanitizePrismaPayload(body);
+    const albumDate = parseOptionalDate(payload.date);
     const album = await prisma.photoAlbum.create({
       data: {
         ...payload,
