@@ -63,7 +63,7 @@ export default function Navigation() {
               Cog-Bio<span className="text-blue-400">AV</span> Lab
             </h1>
             <span className="text-xs sm:text-sm text-gray-300 hidden lg:inline">
-              | Cognitive Audio-Visual Biomedical Research Laboratory6
+              | Cognitive Audio-Visual Biomedical Research Laboratory--
             </span>
           </div>
 
