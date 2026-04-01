@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
+import { connectDB } from '@/lib/mongodb';
+import User from '@/models/User';
 import jwt from 'jsonwebtoken';
-import { prisma } from '@/lib/prisma';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'cogbioav-lab-secret-key-2024';
 
@@ -37,12 +37,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Check database users (by email)
-    const user = await prisma.user.findFirst({
-      where: {
-        email: String(username || '').toLowerCase(),
-        isActive: true,
-      },
-    });
+    await connectDB();
+    const user = await User.findOne({ email: username.toLowerCase(), isActive: true });
 
     if (!user) {
       return NextResponse.json(
@@ -51,7 +47,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return NextResponse.json(
         { success: false, error: 'Invalid credentials' },
@@ -60,20 +56,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Update last login
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { lastLogin: new Date() },
-    });
+    user.lastLogin = new Date();
+    await user.save();
 
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role, name: user.name, memberId: user.memberId },
+      { id: user._id, email: user.email, role: user.role, name: user.name, memberId: user.memberId },
       JWT_SECRET,
       { expiresIn: '24h' }
     );
 
     const response = NextResponse.json({ 
       success: true, 
-      user: { id: user.id, email: user.email, role: user.role, name: user.name, memberId: user.memberId }
+      user: { id: user._id, email: user.email, role: user.role, name: user.name, memberId: user.memberId }
     });
     
     response.cookies.set('admin_auth', token, {

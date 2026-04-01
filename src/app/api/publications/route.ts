@@ -1,17 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { sanitizePrismaPayload, toClientDoc } from '@/lib/db-mappers';
+import { connectDB } from '@/lib/mongodb';
+import Publication from '@/models/Publication';
 
 export async function GET(request: NextRequest) {
   try {
+    await connectDB();
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type');
-
-    const publications = await prisma.publication.findMany({
-      where: type ? { type } : undefined,
-      orderBy: { createdAt: 'desc' },
-    });
-    return NextResponse.json({ success: true, data: publications.map(toClientDoc as any) });
+    
+    const filter = type ? { type } : {};
+    const publications = await Publication.find(filter).sort({ createdAt: -1 });
+    return NextResponse.json({ success: true, data: publications });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
@@ -19,10 +18,10 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    await connectDB();
     const body = await request.json();
-    const payload = sanitizePrismaPayload(body);
-    const publication = await prisma.publication.create({ data: payload as any });
-    return NextResponse.json({ success: true, data: toClientDoc(publication as any) }, { status: 201 });
+    const publication = await Publication.create(body);
+    return NextResponse.json({ success: true, data: publication }, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }

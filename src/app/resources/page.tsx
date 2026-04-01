@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
-import { prisma } from '@/lib/prisma';
-import { toClientDoc } from '@/lib/db-mappers';
+import { connectDB } from '@/lib/mongodb';
+import Resource from '@/models/Resource';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,10 +14,9 @@ interface ResourceType {
 
 async function getResources(): Promise<ResourceType[]> {
   try {
-    const resources = await prisma.resource.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
-    return resources.map((resource) => toClientDoc(resource as any)) as ResourceType[];
+    await connectDB();
+    const resources = await Resource.find().sort({ createdAt: -1 }).lean();
+    return JSON.parse(JSON.stringify(resources));
   } catch (error) {
     console.error('Error fetching resources:', error);
     return [];

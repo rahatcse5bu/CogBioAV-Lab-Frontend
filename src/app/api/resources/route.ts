@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { sanitizePrismaPayload, toClientDoc } from '@/lib/db-mappers';
+import { connectDB } from '@/lib/mongodb';
+import Resource from '@/models/Resource';
 
 export async function GET() {
   try {
-    const resources = await prisma.resource.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
-    return NextResponse.json({ success: true, data: resources.map(toClientDoc as any) });
+    await connectDB();
+    const resources = await Resource.find().sort({ createdAt: -1 });
+    return NextResponse.json({ success: true, data: resources });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
@@ -15,10 +14,10 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    await connectDB();
     const body = await request.json();
-    const payload = sanitizePrismaPayload(body);
-    const resource = await prisma.resource.create({ data: payload as any });
-    return NextResponse.json({ success: true, data: toClientDoc(resource as any) }, { status: 201 });
+    const resource = await Resource.create(body);
+    return NextResponse.json({ success: true, data: resource }, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }

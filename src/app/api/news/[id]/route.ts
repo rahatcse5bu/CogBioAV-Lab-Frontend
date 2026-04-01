@@ -1,18 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { sanitizePrismaPayload, toClientDoc } from '@/lib/db-mappers';
+import { connectDB } from '@/lib/mongodb';
+import News from '@/models/News';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await connectDB();
     const { id } = await params;
-    const news = await prisma.news.findUnique({ where: { id } });
+    const news = await News.findById(id);
     if (!news) {
       return NextResponse.json({ success: false, error: 'News not found' }, { status: 404 });
     }
-    return NextResponse.json({ success: true, data: toClientDoc(news as any) });
+    return NextResponse.json({ success: true, data: news });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
@@ -23,18 +24,15 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await connectDB();
     const { id } = await params;
     const body = await request.json();
-    const payload = sanitizePrismaPayload(body);
-    const news = await prisma.news.update({ where: { id }, data: payload });
+    const news = await News.findByIdAndUpdate(id, body, { new: true });
     if (!news) {
       return NextResponse.json({ success: false, error: 'News not found' }, { status: 404 });
     }
-    return NextResponse.json({ success: true, data: toClientDoc(news as any) });
+    return NextResponse.json({ success: true, data: news });
   } catch (error: any) {
-    if (error?.code === 'P2025') {
-      return NextResponse.json({ success: false, error: 'News not found' }, { status: 404 });
-    }
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
 }
@@ -44,12 +42,12 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await connectDB();
     const { id } = await params;
-    const existing = await prisma.news.findUnique({ where: { id } });
-    if (!existing) {
+    const news = await News.findByIdAndDelete(id);
+    if (!news) {
       return NextResponse.json({ success: false, error: 'News not found' }, { status: 404 });
     }
-    await prisma.news.delete({ where: { id } });
     return NextResponse.json({ success: true, data: {} });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
