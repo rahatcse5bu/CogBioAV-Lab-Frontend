@@ -26,7 +26,7 @@ export async function PUT(
     const { id } = await params;
     const body = await request.json();
     const payload = sanitizePrismaPayload(body);
-    const resource = await prisma.resource.update({ where: { id }, data: payload as any });
+    const resource = await prisma.resource.update({ where: { id }, data: payload });
     if (!resource) {
       return NextResponse.json({ success: false, error: 'Resource not found' }, { status: 404 });
     }

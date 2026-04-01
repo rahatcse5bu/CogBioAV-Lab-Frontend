@@ -26,7 +26,7 @@ export async function PUT(
     const { id } = await params;
     const body = await request.json();
     const payload = sanitizePrismaPayload(body);
-    const news = await prisma.news.update({ where: { id }, data: payload as any });
+    const news = await prisma.news.update({ where: { id }, data: payload });
     if (!news) {
       return NextResponse.json({ success: false, error: 'News not found' }, { status: 404 });
     }
