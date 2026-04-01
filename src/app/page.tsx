@@ -151,7 +151,7 @@ export default async function Home() {
                     <h3 className="text-base sm:text-lg font-bold text-gray-800">{area.title}</h3>
                   </div>
                   <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
-                    {area.description} 
+                    {area.description}
                   </p>
                 </div>
               );
