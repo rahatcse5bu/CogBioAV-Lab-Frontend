@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
+import BrandName from '@/components/BrandName';
 import { connectDB } from '@/lib/mongodb';
 import Resource from '@/models/Resource';
 
@@ -78,7 +79,7 @@ export default async function Resources() {
         <div className="max-w-7xl mx-auto px-4 py-6 sm:py-8">
           <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
             <div className="mb-3 sm:mb-4 md:mb-0">
-              <p className="font-bold text-lg sm:text-xl">Cog-Bio<span className="text-blue-400">AV</span> Lab</p>
+              <p className="font-bold text-lg sm:text-xl"><BrandName /></p>
               <p className="text-gray-300 text-xs sm:text-sm mt-1">University of Barishal</p>
             </div>
             <div className="text-gray-300 text-xs sm:text-sm">

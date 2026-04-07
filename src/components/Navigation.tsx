@@ -16,6 +16,7 @@ export default function Navigation() {
   const [isSocialOpen, setIsSocialOpen] = useState(false);
   const [isPublicationsOpen, setIsPublicationsOpen] = useState(false);
   const [logoUrl, setLogoUrl] = useState('/logo.jpeg');
+  const [avColor, setAvColor] = useState('text-blue-400');
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   const socialDropdownRef = useRef<HTMLDivElement>(null);
   const publicationsDropdownRef = useRef<HTMLDivElement>(null);
@@ -28,6 +29,7 @@ export default function Navigation() {
           const data = await res.json();
           if (data.success) {
             if (data.data?.logo) setLogoUrl(data.data.logo);
+            if (data.data?.avColor) setAvColor(data.data.avColor);
             if (data.data?.socialLinks) setSocialLinks(data.data.socialLinks);
           }
         }
@@ -60,7 +62,7 @@ export default function Navigation() {
           {/* Lab Name */}
           <div className="flex items-center gap-2">
             <h1 className="text-base sm:text-lg font-bold tracking-wide">
-              Cog-Bio<span className="text-blue-400">AV</span> Lab
+              Cog-Bio<span className={avColor}>AV</span> Lab
             </h1>
             <span className="text-xs sm:text-sm text-gray-300 hidden lg:inline">
               | Cognitive Audio-Visual Biomedical Research Laboratory
@@ -392,7 +394,7 @@ export default function Navigation() {
       {/* Centered Overlapping Logo - spans from topbar through nav into hero */}
       <div className="absolute left-1/2 -translate-x-1/2 top-0 z-[100] pt-1">
         <Link href="/">
-          <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 rounded-full overflow-hidden shadow-2xl border-4 border-white bg-white">
+          <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 rounded-full overflow-hidden shadow-2xl bg-white">
             <Image 
               src={logoUrl} 
               alt="CogBioAV Lab Logo" 

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
+import BrandName from '@/components/BrandName';
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
@@ -202,7 +203,7 @@ function PublicationsContent() {
         <div className="max-w-7xl mx-auto px-4 py-6 sm:py-8">
           <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
             <div className="mb-3 sm:mb-4 md:mb-0">
-              <p className="font-semibold text-base sm:text-lg">CogBio<span className="text-green-400">AV</span> Lab</p>
+              <p className="font-semibold text-base sm:text-lg"><BrandName /></p>
               <p className="text-gray-400 text-xs sm:text-sm mt-1">University of Barishal</p>
             </div>
             <div className="text-gray-400 text-xs sm:text-sm">

@@ -15,10 +15,22 @@ interface SocialLink {
 export default function AdminSettings() {
   const [logo, setLogo] = useState('');
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
+  const [avColor, setAvColor] = useState('text-blue-400');
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState('logo');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const colorOptions = [
+    { label: 'Blue', value: 'text-blue-400' },
+    { label: 'Orange', value: 'text-orange-500' },
+    { label: 'Green', value: 'text-green-400' },
+    { label: 'Red', value: 'text-red-500' },
+    { label: 'Pink', value: 'text-pink-400' },
+    { label: 'Purple', value: 'text-purple-400' },
+    { label: 'Yellow', value: 'text-yellow-400' },
+    { label: 'Cyan', value: 'text-cyan-400' },
+  ];
 
   useEffect(() => {
     fetchSettings();
@@ -31,6 +43,7 @@ export default function AdminSettings() {
       if (data.success) {
         if (data.data.logo) setLogo(data.data.logo);
         if (data.data.socialLinks) setSocialLinks(data.data.socialLinks);
+        if (data.data.avColor) setAvColor(data.data.avColor);
       }
     } catch (error) {
       console.error('Error fetching settings:', error);
@@ -117,6 +130,22 @@ export default function AdminSettings() {
     setSaving(false);
   };
 
+  const handleSaveAvColor = async () => {
+    setSaving(true);
+    try {
+      await fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: 'avColor', value: avColor }),
+      });
+      alert('Header color saved successfully!');
+    } catch (error) {
+      console.error('Save error:', error);
+      alert('Failed to save header color. Please try again.');
+    }
+    setSaving(false);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="bg-gradient-to-r from-gray-900 via-blue-900 to-black text-white shadow-lg">
@@ -140,6 +169,14 @@ export default function AdminSettings() {
             }`}
           >
             Logo
+          </button>
+          <button
+            onClick={() => setActiveTab('header')}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              activeTab === 'header' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
+            }`}
+          >
+            Header Format
           </button>
           <button
             onClick={() => setActiveTab('social')}
@@ -212,6 +249,58 @@ export default function AdminSettings() {
                 <strong>Tip:</strong> For best results, use a square image (e.g., 200x200 pixels). 
                 The logo will appear in the navigation bar on all pages.
               </p>
+            </div>
+          </div>
+        )}
+
+        {/* Header Format Tab */}
+        {activeTab === 'header' && (
+          <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">Header Formatting</h2>
+            
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-4">AV Color</label>
+                <p className="text-sm text-gray-600 mb-4">Select the color for "AV" in the header "Cog-BioAV Lab"</p>
+                
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {colorOptions.map((color) => (
+                    <button
+                      key={color.value}
+                      onClick={() => setAvColor(color.value)}
+                      className={`p-4 rounded-lg border-2 transition-all ${
+                        avColor === color.value
+                          ? 'border-purple-600 bg-purple-50'
+                          : 'border-gray-200 bg-white hover:border-gray-300'
+                      }`}
+                    >
+                      <div className="flex flex-col items-center gap-2">
+                        <div className={`w-8 h-8 rounded ${color.value}`}></div>
+                        <span className="text-sm font-medium text-gray-700">{color.label}</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Preview */}
+              <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <p className="text-xs font-semibold text-gray-600 uppercase mb-3">Preview</p>
+                <h3 className="text-lg sm:text-xl font-bold tracking-wide">
+                  Cog-Bio<span className={avColor}>AV</span> Lab
+                </h3>
+              </div>
+
+              {/* Save Button */}
+              <div className="pt-6 border-t border-gray-200">
+                <button
+                  onClick={handleSaveAvColor}
+                  disabled={saving}
+                  className="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 disabled:bg-green-300 transition-colors font-medium"
+                >
+                  {saving ? 'Saving...' : 'Save Header Color'}
+                </button>
+              </div>
             </div>
           </div>
         )}

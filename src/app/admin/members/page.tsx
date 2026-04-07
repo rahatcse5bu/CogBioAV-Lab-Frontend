@@ -589,44 +589,107 @@ export default function AdminMembers() {
         {/* Members List */}
         <div className="grid gap-4">
           {members.map((member) => (
-            <div key={member._id} className="bg-white rounded-lg shadow p-4 flex items-start gap-4">
-              {member.photo ? (
-                <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                  <Image src={member.photo} alt={member.name} fill className="object-cover" />
-                </div>
-              ) : (
-                <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                  <span className="text-gray-400 text-xs">No photo</span>
-                </div>
-              )}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <h3 className="font-bold text-lg">{member.name}</h3>
-                    <p className="text-sm text-gray-600">{member.title || member.degree}</p>
-                    <div className="flex gap-2 mt-1">
-                      <span className={`text-xs px-2 py-0.5 rounded ${
-                        member.type === 'pi' ? 'bg-green-100 text-green-700' : 
-                        member.type === 'alumni' ? 'bg-orange-100 text-orange-700' :
-                        member.type === 'collaborator' ? 'bg-blue-100 text-blue-700' :
-                        'bg-purple-100 text-purple-700'
-                      }`}>
-                        {member.type === 'pi' ? 'PI' : member.type === 'alumni' ? 'Alumni' : member.type === 'collaborator' ? 'Collaborator' : 'Member'}
-                      </span>
-                      <span className={`text-xs px-2 py-0.5 rounded ${
-                        member.status === 'active' ? 'bg-green-100 text-green-700' : 
-                        member.status === 'graduated' ? 'bg-blue-100 text-blue-700' : 
-                        'bg-gray-100 text-gray-700'
-                      }`}>
-                        {member.status || 'active'}
-                      </span>
+            <div key={member._id} className="bg-white rounded-lg shadow p-6">
+              <div className="flex items-start gap-4 mb-4">
+                {member.photo ? (
+                  <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                    <Image src={member.photo} alt={member.name} fill className="object-cover" />
+                  </div>
+                ) : (
+                  <div className="w-20 h-20 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-gray-400 text-xs">No photo</span>
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h3 className="font-bold text-lg">{member.name}</h3>
+                      <p className="text-sm text-gray-600">{member.title || member.degree}</p>
+                      <div className="flex gap-2 mt-2">
+                        <span className={`text-xs px-2 py-0.5 rounded ${
+                          member.type === 'pi' ? 'bg-green-100 text-green-700' : 
+                          member.type === 'alumni' ? 'bg-orange-100 text-orange-700' :
+                          member.type === 'collaborator' ? 'bg-blue-100 text-blue-700' :
+                          'bg-purple-100 text-purple-700'
+                        }`}>
+                          {member.type === 'pi' ? 'PI' : member.type === 'alumni' ? 'Alumni' : member.type === 'collaborator' ? 'Collaborator' : 'Member'}
+                        </span>
+                        <span className={`text-xs px-2 py-0.5 rounded ${
+                          member.status === 'active' ? 'bg-green-100 text-green-700' : 
+                          member.status === 'graduated' ? 'bg-blue-100 text-blue-700' : 
+                          'bg-gray-100 text-gray-700'
+                        }`}>
+                          {member.status || 'active'}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button onClick={() => handleEdit(member)} className="text-blue-600 text-sm hover:underline">Edit</button>
+                      <button onClick={() => handleDelete(member._id)} className="text-red-600 text-sm hover:underline">Delete</button>
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    <button onClick={() => handleEdit(member)} className="text-blue-600 text-sm hover:underline">Edit</button>
-                    <button onClick={() => handleDelete(member._id)} className="text-red-600 text-sm hover:underline">Delete</button>
-                  </div>
                 </div>
+              </div>
+
+              {/* Member Details Grid */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t">
+                {member.email && (
+                  <div>
+                    <p className="text-xs font-semibold text-gray-500 uppercase">Email</p>
+                    <p className="text-sm text-gray-700">{member.email}</p>
+                  </div>
+                )}
+                {member.phone && (
+                  <div>
+                    <p className="text-xs font-semibold text-gray-500 uppercase">Phone</p>
+                    <p className="text-sm text-gray-700">{member.phone}</p>
+                  </div>
+                )}
+                {member.department && (
+                  <div>
+                    <p className="text-xs font-semibold text-gray-500 uppercase">Department</p>
+                    <p className="text-sm text-gray-700">{member.department}</p>
+                  </div>
+                )}
+                {member.institution && (
+                  <div>
+                    <p className="text-xs font-semibold text-gray-500 uppercase">Institution</p>
+                    <p className="text-sm text-gray-700">{member.institution}</p>
+                  </div>
+                )}
+                {member.degree && (
+                  <div>
+                    <p className="text-xs font-semibold text-gray-500 uppercase">Degree</p>
+                    <p className="text-sm text-gray-700">{member.degree}</p>
+                  </div>
+                )}
+                {member.website && (
+                  <div>
+                    <p className="text-xs font-semibold text-gray-500 uppercase">Website</p>
+                    <p className="text-sm text-blue-600 truncate"><a href={member.website} target="_blank" rel="noopener noreferrer">View Website</a></p>
+                  </div>
+                )}
+                {member.description && (
+                  <div className="md:col-span-2 lg:col-span-3">
+                    <p className="text-xs font-semibold text-gray-500 uppercase">Description</p>
+                    <p className="text-sm text-gray-700 line-clamp-2">{member.description}</p>
+                  </div>
+                )}
+                {member.researchInterests && member.researchInterests.length > 0 && (
+                  <div className="md:col-span-2 lg:col-span-3">
+                    <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Research Interests</p>
+                    <div className="flex flex-wrap gap-1">
+                      {member.researchInterests.slice(0, 5).map((interest, i) => (
+                        <span key={i} className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                          {interest}
+                        </span>
+                      ))}
+                      {member.researchInterests.length > 5 && (
+                        <span className="text-xs text-gray-500">+{member.researchInterests.length - 5} more</span>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           ))}
