@@ -17,27 +17,6 @@ export default function MyProfilePage() {
     </div>
   );
 }
-_id: string;
-name: string;
-degree: string;
-award: string;
-description: string;
-type: string;
-image: string;
-email: string;
-phone: string;
-office: string;
-research: string;
-socialLinks: { label: string; url: string } [];
-}
-
-interface CurrentUser {
-  _id: string;
-  email: string;
-  name: string;
-  role: 'admin' | 'member' | 'super_admin';
-  memberId: string | null;
-}
 
 const IMGBB_API_KEY = '8dc087e2ff84abdb4021d6eb977ba589';
 
