@@ -15,11 +15,13 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSocialOpen, setIsSocialOpen] = useState(false);
   const [isPublicationsOpen, setIsPublicationsOpen] = useState(false);
+  const [isLabOpen, setIsLabOpen] = useState(false);
   const [logoUrl, setLogoUrl] = useState('/logo.jpeg');
   const [avColor, setAvColor] = useState('text-blue-400');
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   const socialDropdownRef = useRef<HTMLDivElement>(null);
   const publicationsDropdownRef = useRef<HTMLDivElement>(null);
+  const labDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -49,23 +51,23 @@ export default function Navigation() {
       if (publicationsDropdownRef.current && !publicationsDropdownRef.current.contains(event.target as Node)) {
         setIsPublicationsOpen(false);
       }
+      if (labDropdownRef.current && !labDropdownRef.current.contains(event.target as Node)) {
+        setIsLabOpen(false);
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
-    <div className="relative">
+    <div className="fixed w-full top-0 z-50">
       {/* Top Bar - Lab Name and Contact */}
       <div className="bg-gradient-to-r from-gray-900 via-blue-900 to-black text-white">
         <div className="max-w-7xl mx-auto px-4 py-2 sm:py-3 flex items-center justify-between">
           {/* Lab Name */}
           <div className="flex items-center gap-2">
-            <h1 className="text-base sm:text-lg font-bold tracking-wide">
-              Cog-Bio<span className={avColor}>AV</span> Lab
-            </h1>
-            <span className="text-xs sm:text-sm text-gray-300 hidden lg:inline">
-              | Cognitive Audio-Visual Biomedical Research Laboratory
+            <span className="text-base sm:text-lg font-bold text-gray-300 hidden lg:inline">
+              Welcome to CogBio<span className={avColor}>AV</span>Lab
             </span>
           </div>
 
@@ -127,71 +129,117 @@ export default function Navigation() {
               >
                 News
               </Link>
-              <Link
-                href="/members"
-                className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-3 xl:px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+              {/* Lab Dropdown */}
+              <div 
+                className="relative" 
+                ref={labDropdownRef}
+                onMouseEnter={() => setIsLabOpen(true)}
+                onMouseLeave={() => setIsLabOpen(false)}
               >
-                Lab
-              </Link>
-              {/* Publications Dropdown */}
-              <div className="relative" ref={publicationsDropdownRef}>
-                <button
-                  onClick={() => setIsPublicationsOpen(!isPublicationsOpen)}
+                <Link
+                  href="/members"
                   className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-3 xl:px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide flex items-center gap-1"
+                >
+                  Lab
+                  <svg className={`w-4 h-4 transition-transform ${isLabOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </Link>
+                {isLabOpen && (
+                  <div className="absolute left-0 mt-0 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-1 z-50">
+                    <Link
+                      href="/members#pi"
+                      className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 text-sm font-medium transition-all duration-150 ease-in-out"
+                    >
+                      Principal Investigator
+                    </Link>
+                    <Link
+                      href="/members#member"
+                      className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 text-sm font-medium transition-all duration-150 ease-in-out"
+                    >
+                      Current Lab Members
+                    </Link>
+                    <Link
+                      href="/members#technical_collaborators"
+                      className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 text-sm font-medium transition-all duration-150 ease-in-out"
+                    >
+                      Technical Collaborators
+                    </Link>
+                    <Link
+                      href="/members#alumni"
+                      className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 text-sm font-medium transition-all duration-150 ease-in-out"
+                    >
+                      Alumni
+                    </Link>
+                    <Link
+                      href="/members#collaborator"
+                      className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 text-sm font-medium transition-all duration-150 ease-in-out"
+                    >
+                      Collaborators
+                    </Link>
+                  </div>
+                )}
+              </div>
+              {/* Publications Dropdown */}
+              <div 
+                className="relative" 
+                ref={publicationsDropdownRef}
+                onMouseEnter={() => setIsPublicationsOpen(true)}
+                onMouseLeave={() => setIsPublicationsOpen(false)}
+              >
+                <Link
+                  href="/publications"
+                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-3 xl:px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide flex items-center gap-1"
+                  onClick={(e) => {
+                    // Allow normal navigation while keeping dropdown visible on hover
+                  }}
                 >
                   Publication
                   <svg className={`w-4 h-4 transition-transform ${isPublicationsOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
-                </button>
+                </Link>
                 {isPublicationsOpen && (
-                  <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                  <div className="absolute left-0 mt-0 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 z-50">
                     <Link
-                      href="/publications?type=article"
-                      className="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 text-sm transition-colors"
-                      onClick={() => setIsPublicationsOpen(false)}
+                      href="/publications#article"
+                      className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 text-sm font-medium transition-all duration-150 ease-in-out"
                     >
                       Articles
                     </Link>
                     <Link
-                      href="/publications?type=book"
-                      className="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 text-sm transition-colors"
-                      onClick={() => setIsPublicationsOpen(false)}
+                      href="/publications#book"
+                      className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 text-sm font-medium transition-all duration-150 ease-in-out"
                     >
                       Books
                     </Link>
                     <Link
-                      href="/publications?type=book_chapter"
-                      className="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 text-sm transition-colors"
-                      onClick={() => setIsPublicationsOpen(false)}
+                      href="/publications#book_chapter"
+                      className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 text-sm font-medium transition-all duration-150 ease-in-out"
                     >
                       Book Chapter
                     </Link>
                     <Link
-                      href="/publications?type=conference"
-                      className="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 text-sm transition-colors"
-                      onClick={() => setIsPublicationsOpen(false)}
+                      href="/publications#conference"
+                      className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 text-sm font-medium transition-all duration-150 ease-in-out"
                     >
                       Conferences
                     </Link>
                     <Link
                       href="/publications"
-                      className="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 text-sm transition-colors"
-                      onClick={() => setIsPublicationsOpen(false)}
+                      className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 text-sm font-medium transition-all duration-150 ease-in-out"
                     >
                       Publications
                     </Link>
                     <Link
-                      href="/publications?type=monograph"
-                      className="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 text-sm transition-colors"
-                      onClick={() => setIsPublicationsOpen(false)}
+                      href="/publications#monograph"
+                      className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 text-sm font-medium transition-all duration-150 ease-in-out"
                     >
                       Monograph
                     </Link>
                     <Link
-                      href="/publications?type=workshop"
-                      className="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 text-sm transition-colors"
-                      onClick={() => setIsPublicationsOpen(false)}
+                      href="/publications#workshop"
+                      className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 text-sm font-medium transition-all duration-150 ease-in-out"
                     >
                       Workshop
                     </Link>

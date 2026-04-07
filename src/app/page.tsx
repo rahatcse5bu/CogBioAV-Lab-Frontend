@@ -69,7 +69,7 @@ export default async function Home() {
       <Navigation />
 
       {/* Hero Banner - Similar to Bio-ASP */}
-      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900 to-black overflow-hidden">
+      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900 to-black overflow-hidden pt-24 sm:pt-32 md:pt-40">
         {/* Wave Pattern Background */}
         <div className="absolute inset-0 opacity-30">
           <div className="absolute left-0 top-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-blue-500 rounded-full blur-3xl"></div>

@@ -5,7 +5,7 @@ const MemberSchema = new mongoose.Schema({
   degree: { type: String, required: true },
   award: { type: String, default: '' },
   description: { type: String, required: true },
-  type: { type: String, enum: ['pi', 'member', 'alumni', 'collaborator'], default: 'member' },
+  type: { type: String, enum: ['pi', 'member', 'technical_collaborators', 'alumni', 'collaborator'], default: 'member' },
   email: { type: String, default: '' },
   title: { type: String, default: '' },
   department: { type: String, default: '' },

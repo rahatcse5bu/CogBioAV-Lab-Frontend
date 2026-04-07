@@ -23,7 +23,7 @@ export default function Schedule() {
       <Navigation />
 
       {/* Hero Banner */}
-      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900 to-black overflow-hidden">
+      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900 to-black overflow-hidden pt-24 sm:pt-32 md:pt-40">
         <div className="absolute inset-0 opacity-30">
           <div className="absolute left-0 top-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-blue-500 rounded-full blur-3xl"></div>
           <div className="absolute right-0 bottom-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-cyan-500 rounded-full blur-3xl"></div>

@@ -305,9 +305,10 @@ export default function AdminMembers() {
                       <select value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                         className="w-full border rounded-lg px-3 py-2">
                         <option value="pi">Principal Investigator</option>
-                        <option value="member">Current Member</option>
+                        <option value="member">Current Lab Members</option>
+                        <option value="technical_collaborators">Technical Collaborators</option>
                         <option value="alumni">Alumni</option>
-                        <option value="collaborator">Collaborator</option>
+                        <option value="collaborator">Collaborators</option>
                       </select>
                     </div>
                   </div>
@@ -607,10 +608,11 @@ export default function AdminMembers() {
                       <div className="flex gap-2 mt-2">
                         <span className={`text-xs px-2 py-0.5 rounded ${member.type === 'pi' ? 'bg-green-100 text-green-700' :
                             member.type === 'alumni' ? 'bg-orange-100 text-orange-700' :
+                              member.type === 'technical_collaborators' ? 'bg-red-100 text-red-700' :
                               member.type === 'collaborator' ? 'bg-blue-100 text-blue-700' :
                                 'bg-purple-100 text-purple-700'
                           }`}>
-                          {member.type === 'pi' ? 'PI' : member.type === 'alumni' ? 'Alumni' : member.type === 'collaborator' ? 'Collaborator' : 'Member'}
+                          {member.type === 'pi' ? 'PI' : member.type === 'alumni' ? 'Alumni' : member.type === 'technical_collaborators' ? 'Tech Collaborator' : member.type === 'collaborator' ? 'Collaborator' : 'Member'}
                         </span>
                         <span className={`text-xs px-2 py-0.5 rounded ${member.status === 'active' ? 'bg-green-100 text-green-700' :
                             member.status === 'graduated' ? 'bg-blue-100 text-blue-700' :
