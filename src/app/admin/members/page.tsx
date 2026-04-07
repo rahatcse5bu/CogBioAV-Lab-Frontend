@@ -676,7 +676,7 @@ export default function AdminMembers() {
                   <div className="md:col-span-2 lg:col-span-3">
                     <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Research Interests</p>
                     <div className="flex flex-wrap gap-1">
-                      {member.researchInterests.slice(0, 5).map((interest, i) => (
+                      {member.researchInterests.slice(0, 5).map((interest: string, i: number) => (
                         <span key={i} className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
                           {interest}
                         </span>
