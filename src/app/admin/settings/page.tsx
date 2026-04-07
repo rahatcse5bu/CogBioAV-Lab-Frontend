@@ -258,7 +258,7 @@ export default function AdminSettings() {
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-4">AV Color</label>
-                <p className="text-sm text-gray-600 mb-4">Select the color for "AV" in the header "Cog-BioAV Lab"</p>
+                <p className="text-sm text-gray-600 mb-4">Select the color for &quot;AV&quot; in the header &quot;Cog-BioAV Lab&quot;</p>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {colorOptions.map((color) => (
