@@ -74,7 +74,7 @@ export default function AdminLogin() {
         {/* Login Form */}
         <div className="bg-white rounded-lg shadow-xl p-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Sign In</h2>
-          
+
           {error && (
             <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
               {error}

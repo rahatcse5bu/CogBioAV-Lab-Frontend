@@ -112,7 +112,7 @@ export default function MemberProfile() {
   return (
     <div className="min-h-screen bg-gray-100">
       <Navigation />
-      
+
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-gray-900 via-blue-900 to-black text-white">
         <div className="max-w-6xl mx-auto px-4 py-12 sm:py-16">
@@ -131,14 +131,13 @@ export default function MemberProfile() {
             {/* Info */}
             <div className="text-center md:text-left flex-1">
               <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-3">
-                <span className={`text-xs px-3 py-1 rounded-full ${
-                  member.type === 'pi' ? 'bg-green-500' : 
-                  member.type === 'alumni' ? 'bg-orange-500' :
-                  member.type === 'collaborator' ? 'bg-blue-500' : 'bg-purple-500'
-                }`}>
-                  {member.type === 'pi' ? 'Principal Investigator' : 
-                   member.type === 'alumni' ? 'Alumni' :
-                   member.type === 'collaborator' ? 'Collaborator' : 'Member'}
+                <span className={`text-xs px-3 py-1 rounded-full ${member.type === 'pi' ? 'bg-green-500' :
+                    member.type === 'alumni' ? 'bg-orange-500' :
+                      member.type === 'collaborator' ? 'bg-blue-500' : 'bg-purple-500'
+                  }`}>
+                  {member.type === 'pi' ? 'Principal Investigator' :
+                    member.type === 'alumni' ? 'Alumni' :
+                      member.type === 'collaborator' ? 'Collaborator' : 'Member'}
                 </span>
                 {member.status && member.status !== 'active' && (
                   <span className="text-xs px-3 py-1 rounded-full bg-gray-500">{member.status}</span>
@@ -211,11 +210,10 @@ export default function MemberProfile() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition ${
-                  activeTab === tab.id
+                className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition ${activeTab === tab.id
                     ? 'border-purple-600 text-purple-600'
                     : 'border-transparent text-gray-600 hover:text-gray-900'
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>

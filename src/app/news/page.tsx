@@ -37,7 +37,7 @@ export default async function NewsPage() {
           <div className="absolute left-0 top-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-blue-500 rounded-full blur-3xl"></div>
           <div className="absolute right-0 bottom-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-cyan-500 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto px-4 py-10 sm:py-12 md:py-16">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">News</h1>
@@ -69,7 +69,7 @@ export default async function NewsPage() {
                       {item.icon}
                     </div>
                   </div>
-                  
+
                   {/* Content */}
                   <div className="flex-1 text-center sm:text-left">
                     <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-3 mb-2">

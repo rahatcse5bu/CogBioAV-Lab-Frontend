@@ -97,7 +97,7 @@ export default function AdminSettings() {
   };
 
   const updateSocialLink = (id: string, field: keyof SocialLink, value: string | boolean) => {
-    setSocialLinks(socialLinks.map(link => 
+    setSocialLinks(socialLinks.map(link =>
       link.id === id ? { ...link, [field]: value } : link
     ));
   };
@@ -164,25 +164,22 @@ export default function AdminSettings() {
         <div className="flex gap-2 mb-6">
           <button
             onClick={() => setActiveTab('logo')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeTab === 'logo' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
-            }`}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === 'logo' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
           >
             Logo
           </button>
           <button
             onClick={() => setActiveTab('header')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeTab === 'header' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
-            }`}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === 'header' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
           >
             Header Format
           </button>
           <button
             onClick={() => setActiveTab('social')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeTab === 'social' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
-            }`}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === 'social' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
           >
             Social Links
           </button>
@@ -192,7 +189,7 @@ export default function AdminSettings() {
         {activeTab === 'logo' && (
           <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">Lab Logo</h2>
-            
+
             <div className="flex flex-col sm:flex-row items-center gap-6">
               {/* Logo Preview */}
               <div className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden border-4 border-indigo-200 shadow-lg bg-gray-100 flex items-center justify-center">
@@ -246,7 +243,7 @@ export default function AdminSettings() {
             {/* Info */}
             <div className="mt-6 p-4 bg-blue-50 rounded-lg">
               <p className="text-sm text-blue-700">
-                <strong>Tip:</strong> For best results, use a square image (e.g., 200x200 pixels). 
+                <strong>Tip:</strong> For best results, use a square image (e.g., 200x200 pixels).
                 The logo will appear in the navigation bar on all pages.
               </p>
             </div>
@@ -257,22 +254,21 @@ export default function AdminSettings() {
         {activeTab === 'header' && (
           <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">Header Formatting</h2>
-            
+
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-4">AV Color</label>
                 <p className="text-sm text-gray-600 mb-4">Select the color for "AV" in the header "Cog-BioAV Lab"</p>
-                
+
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {colorOptions.map((color) => (
                     <button
                       key={color.value}
                       onClick={() => setAvColor(color.value)}
-                      className={`p-4 rounded-lg border-2 transition-all ${
-                        avColor === color.value
+                      className={`p-4 rounded-lg border-2 transition-all ${avColor === color.value
                           ? 'border-purple-600 bg-purple-50'
                           : 'border-gray-200 bg-white hover:border-gray-300'
-                      }`}
+                        }`}
                     >
                       <div className="flex flex-col items-center gap-2">
                         <div className={`w-8 h-8 rounded ${color.value}`}></div>
@@ -361,7 +357,7 @@ export default function AdminSettings() {
                         </button>
                       </div>
                     </div>
-                    
+
                     <div className="grid sm:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Label *</label>

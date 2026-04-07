@@ -17,18 +17,18 @@ export default function MyProfilePage() {
     </div>
   );
 }
-  _id: string;
-  name: string;
-  degree: string;
-  award: string;
-  description: string;
-  type: string;
-  image: string;
-  email: string;
-  phone: string;
-  office: string;
-  research: string;
-  socialLinks: { label: string; url: string }[];
+_id: string;
+name: string;
+degree: string;
+award: string;
+description: string;
+type: string;
+image: string;
+email: string;
+phone: string;
+office: string;
+research: string;
+socialLinks: { label: string; url: string } [];
 }
 
 interface CurrentUser {
@@ -53,14 +53,14 @@ export default function MyProfilePage() {
     try {
       const res = await fetch('/api/auth/login');
       const data = await res.json();
-      
+
       if (!data.success || !data.user) {
         router.push('/admin/login');
         return;
       }
-      
+
       setUser(data.user);
-      
+
       // If user is a member with linked profile, fetch member data
       if (data.user.memberId) {
         const memberRes = await fetch(`/api/members/${data.user.memberId}`);
@@ -87,7 +87,7 @@ export default function MyProfilePage() {
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0] || !member) return;
-    
+
     setUploadingImage(true);
     const file = e.target.files[0];
     const formData = new FormData();
@@ -111,7 +111,7 @@ export default function MyProfilePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!member) return;
-    
+
     setSaving(true);
     try {
       const res = await fetch(`/api/members/${member._id}`, {
@@ -119,7 +119,7 @@ export default function MyProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(member),
       });
-      
+
       const data = await res.json();
       if (data.success) {
         alert('Profile updated successfully!');

@@ -28,7 +28,7 @@ export default function Schedule() {
           <div className="absolute left-0 top-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-blue-500 rounded-full blur-3xl"></div>
           <div className="absolute right-0 bottom-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-cyan-500 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto px-4 py-10 sm:py-12 md:py-16">
           <div className="text-center">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2">Presentation Schedule</h1>
@@ -39,7 +39,7 @@ export default function Schedule() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8 sm:py-10 md:py-12">
-        
+
         <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-6 sm:mb-8">
           Students will present their research outcome as scheduled below:
         </p>
@@ -53,21 +53,21 @@ export default function Schedule() {
                     <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   </div>
                   <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-800">
-                {item.date}
-              </h2>
+                    {item.date}
+                  </h2>
                 </div>
               </div>
               <div className="p-3 sm:p-4">
-              <ul className="space-y-2">
-                {item.students.map((student, studentIndex) => (
-                  <li key={studentIndex} className="flex items-center gap-2 sm:gap-3 p-2 hover:bg-green-50 rounded transition-colors">
-                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-green-600 font-bold text-xs sm:text-sm">{studentIndex + 1}</span>
-                    </div>
-                    <span className="text-sm sm:text-base text-gray-700 font-medium">{student}</span>
-                  </li>
-                ))}
-              </ul>
+                <ul className="space-y-2">
+                  {item.students.map((student, studentIndex) => (
+                    <li key={studentIndex} className="flex items-center gap-2 sm:gap-3 p-2 hover:bg-green-50 rounded transition-colors">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-green-600 font-bold text-xs sm:text-sm">{studentIndex + 1}</span>
+                      </div>
+                      <span className="text-sm sm:text-base text-gray-700 font-medium">{student}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           ))}

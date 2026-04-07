@@ -47,7 +47,7 @@ function PublicationsContent() {
   };
 
   // Filter publications based on type parameter
-  const filteredPublications = typeFilter 
+  const filteredPublications = typeFilter
     ? publications.filter(pub => pub.type === typeFilter)
     : publications;
 
@@ -89,7 +89,7 @@ function PublicationsContent() {
           <div className="absolute left-0 top-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-blue-500 rounded-full blur-3xl"></div>
           <div className="absolute right-0 bottom-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-cyan-500 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto px-4 py-10 sm:py-12 md:py-16">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">{currentTypeLabel}</h1>
@@ -105,11 +105,11 @@ function PublicationsContent() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8 sm:py-10 md:py-12">
-        
+
         {/* Filter Tabs */}
         {!typeFilter && (
           <div className="flex flex-wrap gap-2 mb-8">
-            <Link 
+            <Link
               href="/publications"
               className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium"
             >
@@ -120,7 +120,7 @@ function PublicationsContent() {
               if (count === 0) return null;
               const colors = getColorClasses(config.color);
               return (
-                <Link 
+                <Link
                   key={type}
                   href={`/publications?type=${type}`}
                   className={`px-4 py-2 rounded-lg ${colors.bg} ${colors.text} text-sm font-medium ${colors.bgHover} transition-colors`}
@@ -145,7 +145,7 @@ function PublicationsContent() {
             {Object.entries(groupedPublications).map(([type, pubs]) => {
               const typeConfig = getTypeConfig(type);
               const colors = getColorClasses(typeConfig.color);
-              
+
               return (
                 <div key={type}>
                   {!typeFilter && (
@@ -158,7 +158,7 @@ function PublicationsContent() {
                       <div className={`w-24 h-1 ${colors.bg} rounded`}></div>
                     </div>
                   )}
-                  
+
                   <div className="space-y-4">
                     {pubs.map((pub, index) => (
                       <div key={pub._id} className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow p-4 sm:p-5 md:p-6 border-l-4 ${colors.border}`}>
@@ -175,7 +175,7 @@ function PublicationsContent() {
                                 </span>
                               )}
                             </p>
-                            <a 
+                            <a
                               href={pub.doi.startsWith('http') ? pub.doi : `https://doi.org/${pub.doi}`}
                               className={`inline-flex items-center gap-2 ${colors.text} ${colors.bgHover} text-xs sm:text-sm font-medium ${colors.bg} px-3 py-1 rounded-lg transition-colors`}
                               target="_blank"

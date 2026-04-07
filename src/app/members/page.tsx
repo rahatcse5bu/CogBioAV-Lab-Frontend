@@ -57,7 +57,7 @@ export default async function Members() {
           <div className="absolute left-0 top-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-blue-500 rounded-full blur-3xl"></div>
           <div className="absolute right-0 bottom-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-cyan-500 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto px-4 py-10 sm:py-12 md:py-16">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">Lab Members</h1>
@@ -73,17 +73,17 @@ export default async function Members() {
           <div className="mb-8 sm:mb-10 md:mb-12">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">Principal Investigator</h1>
             <div className="w-16 sm:w-20 md:w-24 h-1 bg-green-600 rounded mb-6 sm:mb-8"></div>
-            
+
             <div className="bg-white rounded-xl shadow-lg border-l-4 border-green-600">
               <div className="p-4 sm:p-6 md:p-8">
                 <div className="flex flex-col md:flex-row gap-4 sm:gap-5 md:gap-6">
                   <div className="md:flex-shrink-0">
                     <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 bg-green-50 rounded-xl border-4 border-green-100 flex items-center justify-center mx-auto md:mx-0 overflow-hidden relative">
                       {principalInvestigator.photo ? (
-                        <Image 
-                          src={principalInvestigator.photo} 
-                          alt={principalInvestigator.name} 
-                          fill 
+                        <Image
+                          src={principalInvestigator.photo}
+                          alt={principalInvestigator.name}
+                          fill
                           className="object-cover"
                         />
                       ) : (
@@ -107,7 +107,7 @@ export default async function Members() {
                       <p className="text-sm sm:text-base text-gray-600 mb-3 italic">&ldquo;{principalInvestigator.award}&rdquo;</p>
                     )}
                     <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-4">{principalInvestigator.description}</p>
-                    
+
                     {/* Quick Links */}
                     <div className="flex flex-wrap gap-2 justify-center md:justify-start">
                       {principalInvestigator.email && (
@@ -140,7 +140,7 @@ export default async function Members() {
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">Current Lab Members</h1>
               <div className="w-16 sm:w-20 md:w-24 h-1 bg-purple-600 rounded"></div>
             </div>
-            
+
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {currentMembers.map((member) => (
                 <div key={member._id} className="block">
@@ -160,7 +160,7 @@ export default async function Members() {
                           <p className="text-sm text-gray-600 truncate">{member.degree}</p>
                         </div>
                       </div>
-                      
+
                       {member.researchInterests && member.researchInterests.length > 0 && (
                         <div className="mt-4 flex flex-wrap gap-1">
                           {member.researchInterests.slice(0, 3).map((interest, i) => (
@@ -170,7 +170,7 @@ export default async function Members() {
                           ))}
                         </div>
                       )}
-                      
+
                       <p className="text-gray-600 text-sm mt-3 line-clamp-2">{member.description}</p>
                     </div>
                   </div>
@@ -187,7 +187,7 @@ export default async function Members() {
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">Alumni</h1>
               <div className="w-16 sm:w-20 md:w-24 h-1 bg-orange-500 rounded"></div>
             </div>
-            
+
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {alumni.map((member) => (
                 <div key={member._id} className="block">
@@ -224,7 +224,7 @@ export default async function Members() {
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">Collaborators</h1>
               <div className="w-16 sm:w-20 md:w-24 h-1 bg-blue-500 rounded"></div>
             </div>
-            
+
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {collaborators.map((member) => (
                 <div key={member._id} className="block">

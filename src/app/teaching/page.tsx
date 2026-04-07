@@ -42,7 +42,7 @@ export default function Teaching() {
           <div className="absolute left-0 top-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-blue-500 rounded-full blur-3xl"></div>
           <div className="absolute right-0 bottom-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-cyan-500 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto px-4 py-10 sm:py-12 md:py-16">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">Teaching</h1>
@@ -57,7 +57,7 @@ export default function Teaching() {
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">Teaching</h1>
           <div className="w-16 sm:w-20 md:w-24 h-1 bg-green-600 rounded"></div>
         </div>
-        
+
         <div className="space-y-4 sm:space-y-5 md:space-y-6">
           {experiences.map((exp, index) => (
             <div key={index} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow p-4 sm:p-6 md:p-8 border-t-4 border-green-600">
@@ -66,28 +66,28 @@ export default function Teaching() {
                   <span className="text-green-600 font-bold text-lg sm:text-xl md:text-2xl">{index + 1}</span>
                 </div>
                 <div className="flex-1 text-center sm:text-left">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-2"> {exp.position}
-                </h2>
-                <p className="text-base sm:text-lg text-gray-700 font-medium mb-1">
-                  {exp.institution}
-                </p>
-                <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4">
-                  {exp.period}
-                </p>
-              </div>
-              
-              <p className="text-sm sm:text-base text-gray-700 mb-3">{exp.description}</p>
-              
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-                {exp.courses.map((course, courseIndex) => (
-                  <li key={courseIndex} className="flex items-start gap-2 sm:gap-3 bg-white p-2 sm:p-3 rounded-lg">
-                    <span className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold">
-                      {String.fromCharCode(65 + courseIndex)}
-                    </span>
-                    <span className="text-sm sm:text-base text-gray-700 flex-1">{course}</span>
-                  </li>
-                ))}
-              </ul>
+                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-2"> {exp.position}
+                  </h2>
+                  <p className="text-base sm:text-lg text-gray-700 font-medium mb-1">
+                    {exp.institution}
+                  </p>
+                  <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4">
+                    {exp.period}
+                  </p>
+                </div>
+
+                <p className="text-sm sm:text-base text-gray-700 mb-3">{exp.description}</p>
+
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                  {exp.courses.map((course, courseIndex) => (
+                    <li key={courseIndex} className="flex items-start gap-2 sm:gap-3 bg-white p-2 sm:p-3 rounded-lg">
+                      <span className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold">
+                        {String.fromCharCode(65 + courseIndex)}
+                      </span>
+                      <span className="text-sm sm:text-base text-gray-700 flex-1">{course}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           ))}

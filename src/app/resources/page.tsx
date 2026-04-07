@@ -37,7 +37,7 @@ export default async function Resources() {
           <div className="absolute left-0 top-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-blue-500 rounded-full blur-3xl"></div>
           <div className="absolute right-0 bottom-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-cyan-500 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto px-4 py-10 sm:py-12 md:py-16">
           <div className="text-center">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2">Research Resources</h1>
@@ -48,7 +48,7 @@ export default async function Resources() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8 sm:py-10 md:py-12">
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
           {resources.map((resource, index) => (
             <div key={index} className="bg-white rounded-lg shadow hover:shadow-lg transition-all p-3 sm:p-4 border-l-4 border-blue-600">
@@ -59,7 +59,7 @@ export default async function Resources() {
                 {resource.description}
               </p>
               {resource.link !== '#' && (
-                <a 
+                <a
                   href={resource.link}
                   className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-700 font-medium text-xs hover:underline"
                   target="_blank"

@@ -47,7 +47,7 @@ async function getHomepageData() {
 
 export default async function Home() {
   const data = await getHomepageData();
-  
+
   // Default values if no data
   const heroTitle = data?.heroTitle || 'Cog-Bio';
   const heroHighlight = data?.heroHighlight || 'AV';
@@ -75,7 +75,7 @@ export default async function Home() {
           <div className="absolute left-0 top-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-blue-500 rounded-full blur-3xl"></div>
           <div className="absolute right-0 bottom-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-cyan-500 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto px-4 pt-20 sm:pt-24 md:pt-28 pb-12 sm:pb-16 md:pb-20">
           <div className="text-center">
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 sm:mb-4 tracking-tight">
@@ -89,14 +89,14 @@ export default async function Home() {
 
         {/* Decorative Wave Lines - Hidden on mobile */}
         <svg className="absolute right-0 top-0 h-full w-1/2 opacity-20 hidden sm:block" viewBox="0 0 400 400" fill="none">
-          <path d="M0,100 Q100,50 200,100 T400,100" stroke="url(#gradient)" strokeWidth="2"/>
-          <path d="M0,150 Q100,100 200,150 T400,150" stroke="url(#gradient)" strokeWidth="2"/>
-          <path d="M0,200 Q100,150 200,200 T400,200" stroke="url(#gradient)" strokeWidth="2"/>
-          <path d="M0,250 Q100,200 200,250 T400,250" stroke="url(#gradient)" strokeWidth="2"/>
+          <path d="M0,100 Q100,50 200,100 T400,100" stroke="url(#gradient)" strokeWidth="2" />
+          <path d="M0,150 Q100,100 200,150 T400,150" stroke="url(#gradient)" strokeWidth="2" />
+          <path d="M0,200 Q100,150 200,200 T400,200" stroke="url(#gradient)" strokeWidth="2" />
+          <path d="M0,250 Q100,200 200,250 T400,250" stroke="url(#gradient)" strokeWidth="2" />
           <defs>
             <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.5"/>
-              <stop offset="100%" stopColor="#06B6D4" stopOpacity="0.8"/>
+              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="#06B6D4" stopOpacity="0.8" />
             </linearGradient>
           </defs>
         </svg>
@@ -122,7 +122,7 @@ export default async function Home() {
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 border-b-2 border-blue-500 pb-2">
             {researchTitle}
           </h2>
-          
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {researchAreas.map((area: ResearchArea, index: number) => {
               const colors = colorMap[area.color] || colorMap.blue;
@@ -159,7 +159,7 @@ export default async function Home() {
                   </a>
                 </div>
               </div>
-              
+
               <div className="flex items-start gap-3">
                 <svg className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 <div>
