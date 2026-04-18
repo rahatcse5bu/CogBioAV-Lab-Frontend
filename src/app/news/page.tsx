@@ -1,4 +1,5 @@
 import Navigation from '@/components/Navigation';
+import PageHero from '@/components/PageHero';
 import BrandName from '@/components/BrandName';
 import { connectDB } from '@/lib/mongodb';
 import NewsModel from '@/models/News';
@@ -28,26 +29,17 @@ export default async function NewsPage() {
   const newsItems = await getNews();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <Navigation />
 
-      {/* Hero Banner */}
-      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900 to-black overflow-hidden pt-24 sm:pt-32 md:pt-40">
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute left-0 top-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-blue-500 rounded-full blur-3xl"></div>
-          <div className="absolute right-0 bottom-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-cyan-500 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 py-10 sm:py-12 md:py-16">
-          <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">News</h1>
-            <p className="text-gray-300 text-xs sm:text-sm">Latest updates and announcements</p>
-          </div>
-        </div>
-      </div>
+      <PageHero
+        eyebrow="Stay Updated"
+        title="News"
+        description="Latest updates and announcements from the lab"
+      />
 
       {/* Main Content */}
-      <main className="max-w-5xl mx-auto px-4 py-8 sm:py-10 md:py-12">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 md:py-16">
         {newsItems.length === 0 ? (
           <div className="bg-white rounded-xl shadow-lg p-8 sm:p-10 md:p-12 text-center border-t-4 border-green-600">
             <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">

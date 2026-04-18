@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
+import PageHero from '@/components/PageHero';
 import BrandName from '@/components/BrandName';
 import { connectDB } from '@/lib/mongodb';
 import Homepage from '@/models/Homepage';
@@ -65,45 +66,16 @@ export default async function Home() {
   const footerText = data?.footerText || 'University of Barishal';
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <Navigation />
 
-      {/* Hero Banner - Similar to Bio-ASP */}
-      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900 to-black overflow-hidden pt-24 sm:pt-32 md:pt-40">
-        {/* Wave Pattern Background */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute left-0 top-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-blue-500 rounded-full blur-3xl"></div>
-          <div className="absolute right-0 bottom-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-cyan-500 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 pt-20 sm:pt-24 md:pt-28 pb-12 sm:pb-16 md:pb-20">
-          <div className="text-center">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 sm:mb-4 tracking-tight">
-              {heroTitle}<span className="text-blue-400">{heroHighlight}</span>
-            </h1>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 font-light tracking-wide px-4">
-              {heroSubtitle}
-            </p>
-          </div>
-        </div>
-
-        {/* Decorative Wave Lines - Hidden on mobile */}
-        <svg className="absolute right-0 top-0 h-full w-1/2 opacity-20 hidden sm:block" viewBox="0 0 400 400" fill="none">
-          <path d="M0,100 Q100,50 200,100 T400,100" stroke="url(#gradient)" strokeWidth="2" />
-          <path d="M0,150 Q100,100 200,150 T400,150" stroke="url(#gradient)" strokeWidth="2" />
-          <path d="M0,200 Q100,150 200,200 T400,200" stroke="url(#gradient)" strokeWidth="2" />
-          <path d="M0,250 Q100,200 200,250 T400,250" stroke="url(#gradient)" strokeWidth="2" />
-          <defs>
-            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="#06B6D4" stopOpacity="0.8" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
+      <PageHero
+        title={<>{heroTitle}<span className="text-blue-400">{heroHighlight}</span></>}
+        description={heroSubtitle}
+      />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8 sm:py-10 md:py-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 md:py-16">
         {/* Lab Introduction */}
         <div className="bg-white rounded-lg shadow-md p-5 sm:p-6 md:p-8 mb-6 sm:mb-8">
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 border-b-2 border-blue-500 pb-2">

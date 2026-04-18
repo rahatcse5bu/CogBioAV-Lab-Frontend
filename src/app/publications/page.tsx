@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
+import PageHero from '@/components/PageHero';
 import BrandName from '@/components/BrandName';
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -80,31 +81,23 @@ function PublicationsContent() {
   const currentTypeLabel = typeFilter ? getTypeConfig(typeFilter).label : 'All Publications';
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <Navigation />
 
-      {/* Hero Banner */}
-      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900 to-black overflow-hidden pt-24 sm:pt-32 md:pt-40">
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute left-0 top-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-blue-500 rounded-full blur-3xl"></div>
-          <div className="absolute right-0 bottom-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-cyan-500 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 py-10 sm:py-12 md:py-16">
-          <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">{currentTypeLabel}</h1>
-            <p className="text-gray-300 text-xs sm:text-sm">Peer reviewed and preprint research</p>
-            {typeFilter && (
-              <Link href="/publications" className="inline-block mt-4 text-blue-300 hover:text-white transition-colors">
-                ← View All Publications
-              </Link>
-            )}
-          </div>
-        </div>
-      </div>
+      <PageHero
+        eyebrow="Research Output"
+        title={currentTypeLabel}
+        description="Peer reviewed and preprint research"
+      >
+        {typeFilter && (
+          <Link href="/publications" className="inline-block mt-4 text-blue-300 hover:text-white transition-colors text-sm">
+            &larr; View All Publications
+          </Link>
+        )}
+      </PageHero>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8 sm:py-10 md:py-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 md:py-16">
 
         {/* Filter Tabs */}
         {!typeFilter && (
