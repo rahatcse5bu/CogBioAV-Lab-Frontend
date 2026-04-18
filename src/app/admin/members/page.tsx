@@ -607,16 +607,16 @@ export default function AdminMembers() {
                       <p className="text-sm text-gray-600">{member.title || member.degree}</p>
                       <div className="flex gap-2 mt-2">
                         <span className={`text-xs px-2 py-0.5 rounded ${member.type === 'pi' ? 'bg-green-100 text-green-700' :
-                            member.type === 'alumni' ? 'bg-orange-100 text-orange-700' :
-                              member.type === 'technical_collaborators' ? 'bg-red-100 text-red-700' :
+                          member.type === 'alumni' ? 'bg-orange-100 text-orange-700' :
+                            member.type === 'technical_collaborators' ? 'bg-red-100 text-red-700' :
                               member.type === 'collaborator' ? 'bg-blue-100 text-blue-700' :
                                 'bg-purple-100 text-purple-700'
                           }`}>
                           {member.type === 'pi' ? 'PI' : member.type === 'alumni' ? 'Alumni' : member.type === 'technical_collaborators' ? 'Tech Collaborator' : member.type === 'collaborator' ? 'Collaborator' : 'Member'}
                         </span>
                         <span className={`text-xs px-2 py-0.5 rounded ${member.status === 'active' ? 'bg-green-100 text-green-700' :
-                            member.status === 'graduated' ? 'bg-blue-100 text-blue-700' :
-                              'bg-gray-100 text-gray-700'
+                          member.status === 'graduated' ? 'bg-blue-100 text-blue-700' :
+                            'bg-gray-100 text-gray-700'
                           }`}>
                           {member.status || 'active'}
                         </span>

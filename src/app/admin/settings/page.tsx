@@ -266,8 +266,8 @@ export default function AdminSettings() {
                       key={color.value}
                       onClick={() => setAvColor(color.value)}
                       className={`p-4 rounded-lg border-2 transition-all ${avColor === color.value
-                          ? 'border-purple-600 bg-purple-50'
-                          : 'border-gray-200 bg-white hover:border-gray-300'
+                        ? 'border-purple-600 bg-purple-50'
+                        : 'border-gray-200 bg-white hover:border-gray-300'
                         }`}
                     >
                       <div className="flex flex-col items-center gap-2">

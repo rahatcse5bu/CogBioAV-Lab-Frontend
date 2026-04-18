@@ -63,31 +63,34 @@ export default function Navigation() {
     <div className="fixed w-full top-0 z-50">
       {/* Top Bar - Lab Name and Contact */}
       <div className="bg-gradient-to-r from-gray-900 via-blue-900 to-black text-white">
-        <div className="max-w-7xl mx-auto px-4 py-2 sm:py-3 flex items-center justify-between">
-          {/* Lab Name */}
-          <div className="flex items-center gap-2">
-            <span className="text-base sm:text-lg font-bold text-gray-300 hidden lg:inline">
-              Welcome to CogBio<span className={avColor}>AV</span>Lab
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-between">
+          {/* Lab Name - Responsive */}
+          <div className="flex items-center gap-1 sm:gap-2 flex-1 sm:flex-none">
+            <span className="text-xs sm:text-sm md:text-base lg:text-lg font-bold text-gray-300">
+              <span className="hidden md:inline">Welcome to CogBio<span className={avColor}>AV</span>Lab</span>
+              <span className="md:hidden">CogBio<span className={avColor}>AV</span>Lab</span>
             </span>
           </div>
 
           {/* Contact Us & Admin */}
-          <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
               href="#contact"
-              className="flex items-center gap-1 sm:gap-2 hover:text-gray-200 transition-colors"
+              title="Contact Us"
+              className="flex items-center gap-1 hover:text-gray-200 transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
               <span className="text-xs sm:text-sm font-medium hidden sm:inline">CONTACT US</span>
             </Link>
-            <span className="text-gray-500 hidden sm:inline">|</span>
+            <span className="text-gray-500 hidden sm:inline text-xs">|</span>
             <Link
               href="/admin/login"
-              className="flex items-center gap-1 sm:gap-2 hover:text-gray-200 transition-colors"
+              title="Admin Login"
+              className="flex items-center gap-1 hover:text-gray-200 transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               <span className="text-xs sm:text-sm font-medium hidden sm:inline">ADMIN</span>
@@ -98,12 +101,12 @@ export default function Navigation() {
 
       {/* Main Navigation Bar */}
       <nav className="bg-white shadow-md border-b-2 border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:py-4">
           <div className="flex items-center justify-between">
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Better positioning */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors flex-shrink-0"
               aria-label="Toggle menu"
             >
               <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,8 +133,8 @@ export default function Navigation() {
                 News
               </Link>
               {/* Lab Dropdown */}
-              <div 
-                className="relative" 
+              <div
+                className="relative"
                 ref={labDropdownRef}
                 onMouseEnter={() => setIsLabOpen(true)}
                 onMouseLeave={() => setIsLabOpen(false)}
@@ -181,8 +184,8 @@ export default function Navigation() {
                 )}
               </div>
               {/* Publications Dropdown */}
-              <div 
-                className="relative" 
+              <div
+                className="relative"
                 ref={publicationsDropdownRef}
                 onMouseEnter={() => setIsPublicationsOpen(true)}
                 onMouseLeave={() => setIsPublicationsOpen(false)}
@@ -248,8 +251,8 @@ export default function Navigation() {
               </div>
             </div>
 
-            {/* Center spacer for logo */}
-            <div className="w-20 sm:w-24 md:w-28 lg:w-32"></div>
+            {/* Center spacer for logo - Responsive sizing */}
+            <div className="w-16 sm:w-20 md:w-24 lg:w-32"></div>
 
             {/* Right Navigation - Desktop */}
             <div className="hidden lg:flex items-center gap-1">
@@ -308,84 +311,123 @@ export default function Navigation() {
               </a>
             </div>
 
-            {/* Placeholder for mobile alignment */}
-            <div className="w-10 lg:hidden"></div>
+            {/* Placeholder for mobile alignment - adjusts for smaller screens */}
+            <div className="w-10 sm:w-8 lg:hidden"></div>
           </div>
 
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="lg:hidden mt-4 pb-4 border-t border-gray-200 pt-4">
+            <div className="lg:hidden mt-3 pb-4 border-t border-gray-200 pt-3 max-h-[calc(100vh-200px)] overflow-y-auto">
               <div className="flex flex-col space-y-1">
                 <Link
                   href="/"
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-3 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-3 sm:px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
                 >
                   Home
                 </Link>
                 <Link
                   href="/news"
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-3 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-3 sm:px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
                 >
                   News
                 </Link>
                 <Link
                   href="/members"
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-3 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-3 sm:px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
                 >
                   Lab Members
                 </Link>
-                {/* Mobile Publications Submenu */}
-                <div className="border-t border-gray-100 pt-2 mt-2">
-                  <p className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Publications</p>
+                {/* Mobile Lab Submenu */}
+                <div className="border-t border-gray-100 pt-2 mt-2 pl-2">
+                  <p className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Lab Categories</p>
                   <Link
-                    href="/publications?type=article"
+                    href="/members#pi"
                     onClick={() => setIsMenuOpen(false)}
-                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-6 py-2 rounded transition-colors text-sm"
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-5 py-2 rounded transition-colors text-sm block"
+                  >
+                    Principal Investigator
+                  </Link>
+                  <Link
+                    href="/members#member"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-5 py-2 rounded transition-colors text-sm block"
+                  >
+                    Current Lab Members
+                  </Link>
+                  <Link
+                    href="/members#technical_collaborators"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-5 py-2 rounded transition-colors text-sm block"
+                  >
+                    Technical Collaborators
+                  </Link>
+                  <Link
+                    href="/members#alumni"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-5 py-2 rounded transition-colors text-sm block"
+                  >
+                    Alumni
+                  </Link>
+                  <Link
+                    href="/members#collaborator"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-5 py-2 rounded transition-colors text-sm block"
+                  >
+                    Collaborators
+                  </Link>
+                </div>
+                {/* Mobile Publications Submenu */}
+                <div className="border-t border-gray-100 pt-2 mt-2 pl-2">
+                  <p className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Publications</p>
+                  <Link
+                    href="/publications#article"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-5 py-2 rounded transition-colors text-sm block"
                   >
                     Articles
                   </Link>
                   <Link
-                    href="/publications?type=book"
+                    href="/publications#book"
                     onClick={() => setIsMenuOpen(false)}
-                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-6 py-2 rounded transition-colors text-sm"
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-5 py-2 rounded transition-colors text-sm block"
                   >
                     Books
                   </Link>
                   <Link
-                    href="/publications?type=book_chapter"
+                    href="/publications#book_chapter"
                     onClick={() => setIsMenuOpen(false)}
-                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-6 py-2 rounded transition-colors text-sm"
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-5 py-2 rounded transition-colors text-sm block"
                   >
                     Book Chapter
                   </Link>
                   <Link
-                    href="/publications?type=conference"
+                    href="/publications#conference"
                     onClick={() => setIsMenuOpen(false)}
-                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-6 py-2 rounded transition-colors text-sm"
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-5 py-2 rounded transition-colors text-sm block"
                   >
                     Conferences
                   </Link>
                   <Link
                     href="/publications"
                     onClick={() => setIsMenuOpen(false)}
-                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-6 py-2 rounded transition-colors text-sm"
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-5 py-2 rounded transition-colors text-sm block"
                   >
                     All Publications
                   </Link>
                   <Link
-                    href="/publications?type=monograph"
+                    href="/publications#monograph"
                     onClick={() => setIsMenuOpen(false)}
-                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-6 py-2 rounded transition-colors text-sm"
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-5 py-2 rounded transition-colors text-sm block"
                   >
                     Monograph
                   </Link>
                   <Link
-                    href="/publications?type=workshop"
+                    href="/publications#workshop"
                     onClick={() => setIsMenuOpen(false)}
-                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-6 py-2 rounded transition-colors text-sm"
+                    className="text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 px-5 py-2 rounded transition-colors text-sm block"
                   >
                     Workshop
                   </Link>
@@ -393,21 +435,21 @@ export default function Navigation() {
                 <Link
                   href="/resources"
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-3 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-3 sm:px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
                 >
                   Resources
                 </Link>
                 <Link
                   href="/album"
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-3 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-3 sm:px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
                 >
                   Album
                 </Link>
                 {/* Mobile Social Links */}
                 {socialLinks.length > 0 && (
                   <div className="border-t border-gray-200 pt-2 mt-2">
-                    <p className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Social Links</p>
+                    <p className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Social Links</p>
                     {socialLinks.map((link) => (
                       <a
                         key={link.id}
@@ -415,7 +457,7 @@ export default function Navigation() {
                         target={link.openInNewTab ? '_blank' : '_self'}
                         rel={link.openInNewTab ? 'noopener noreferrer' : undefined}
                         onClick={() => setIsMenuOpen(false)}
-                        className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-3 rounded transition-colors font-medium text-sm uppercase tracking-wide flex items-center gap-2"
+                        className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-3 sm:px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide flex items-center gap-2"
                       >
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -429,7 +471,8 @@ export default function Navigation() {
                   href="https://bu.ac.bd/department/CSE/profile/MHBCSE"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-4 py-3 rounded transition-colors font-medium text-sm uppercase tracking-wide"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 px-3 sm:px-4 py-2 rounded transition-colors font-medium text-sm uppercase tracking-wide"
                 >
                   Profile
                 </a>
@@ -439,10 +482,10 @@ export default function Navigation() {
         </div>
       </nav>
 
-      {/* Centered Overlapping Logo - spans from topbar through nav into hero */}
+      {/* Centered Overlapping Logo - spans from topbar through nav into hero - Responsive sizing */}
       <div className="absolute left-1/2 -translate-x-1/2 top-0 z-[100] pt-1">
         <Link href="/">
-          <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 rounded-full overflow-hidden shadow-2xl bg-white">
+          <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 xl:w-36 xl:h-36 rounded-full overflow-hidden shadow-2xl bg-white">
             <Image
               src={logoUrl}
               alt="CogBioAV Lab Logo"
