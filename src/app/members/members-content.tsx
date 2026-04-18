@@ -136,7 +136,7 @@ export default function MembersContent({
         </div>
 
         {/* Description - truncated */}
-        <p className="text-slate-500 text-sm leading-relaxed line-clamp-2 mb-4">{member.description}</p>
+        <div className="text-slate-500 text-sm leading-relaxed line-clamp-2 mb-4 rich-text-content" dangerouslySetInnerHTML={{ __html: member.description }} />
 
         {/* Research interests tags */}
         {member.researchInterests && member.researchInterests.length > 0 && (
@@ -260,9 +260,7 @@ export default function MembersContent({
                     </div>
                   )}
 
-                  <p className="text-slate-600 leading-relaxed mt-4 text-base line-clamp-4">
-                    {principalInvestigator.description}
-                  </p>
+                  <div className="text-slate-600 leading-relaxed mt-4 text-base line-clamp-4 rich-text-content" dangerouslySetInnerHTML={{ __html: principalInvestigator.description }} />
 
                   {/* Research interests */}
                   {principalInvestigator.researchInterests && principalInvestigator.researchInterests.length > 0 && (

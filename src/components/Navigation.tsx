@@ -67,8 +67,8 @@ export default function Navigation() {
           {/* Lab Name - Responsive */}
           <div className="flex items-center gap-1 sm:gap-2 flex-1 sm:flex-none">
             <span className="text-xs sm:text-sm md:text-base lg:text-lg font-bold text-gray-300">
-              <span className="hidden md:inline">Welcome to CogBio<span className={avColor}>AV</span>Lab</span>
-              <span className="md:hidden">CogBio<span className={avColor}>AV</span>Lab</span>
+              <span className="hidden md:inline">Welcome to CogBio<span className={avColor}>AV</span> Lab</span>
+              <span className="md:hidden">CogBio<span className={avColor}>AV</span> Lab</span>
             </span>
           </div>
 

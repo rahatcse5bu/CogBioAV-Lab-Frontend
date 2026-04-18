@@ -193,7 +193,7 @@ export default function MemberDetailModal({ member, isOpen, onClose }: MemberDet
           {member.description && (
             <div>
               <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-2">About</h3>
-              <p className="text-slate-600 leading-relaxed">{member.description}</p>
+              <div className="text-slate-600 leading-relaxed rich-text-content" dangerouslySetInnerHTML={{ __html: member.description }} />
             </div>
           )}
 
@@ -209,7 +209,7 @@ export default function MemberDetailModal({ member, isOpen, onClose }: MemberDet
           {member.biography && (
             <div>
               <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-2">Biography</h3>
-              <p className="text-slate-600 leading-relaxed text-sm">{member.biography}</p>
+              <div className="text-slate-600 leading-relaxed text-sm rich-text-content" dangerouslySetInnerHTML={{ __html: member.biography }} />
             </div>
           )}
 
